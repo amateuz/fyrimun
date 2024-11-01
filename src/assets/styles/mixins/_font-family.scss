@@ -1,0 +1,5 @@
+@use '../variables/root' as root;
+
+@mixin font-family($primary-font) {
+  font-family: $primary-font, map-get(root.$root-variables, def-font-family);
+}

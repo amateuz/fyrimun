@@ -1,0 +1,9 @@
+@use '../variables/root' as *;
+
+@mixin generate-root-vars() {
+  :root {
+    @each $name, $value in $root-variables {
+      --#{$name}: #{$value};
+    }
+  }
+}

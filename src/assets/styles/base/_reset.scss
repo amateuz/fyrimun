@@ -1,0 +1,75 @@
+@use 'sanitize.css';
+@use '../variables/root' as *;
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+hr,
+figure,
+p {
+  all: unset;
+}
+
+strong {
+  font-weight: bolder;
+}
+
+html {
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+  tab-size: 4;
+}
+
+body {
+  color: rgb(15, 23, 42);
+  min-height: 100vh;
+  font-family: map-get($root-variables, def-font-family);
+  font-size: map-get($root-variables, def-font-size);
+  transition:
+    color 0.5s,
+    background-color 0.5s;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+button,
+input[type='submit'],
+input[type='reset'] {
+  padding: 0;
+  border: none;
+  outline: inherit;
+  font: inherit;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+a {
+  all: unset;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+ul,
+ol {
+  margin-block: 0;
+  padding: 0;
+}

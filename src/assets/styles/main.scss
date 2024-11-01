@@ -1,0 +1,9 @@
+@forward 'base';
+@forward 'variables';
+@forward 'mixins';
+@use 'mixins' as *;
+
+#app {
+  margin: 0 auto;
+  max-width: 768px;
+}
