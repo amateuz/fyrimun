@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed } from 'vue'
 
 interface PriceProductProps {
   oldPrice?: number
   price: number
+  showDiscount?: boolean
 }
 
 const props = defineProps<PriceProductProps>()
 
-const discount = props.oldPrice
-  ? ref<number>(
-      Math.round((props.oldPrice - props.price) * (100 / props.oldPrice))
-    )
-  : null
+const discount = computed(() =>
+  props.oldPrice
+    ? Math.round((props.oldPrice - props.price) * (100 / props.oldPrice))
+    : null
+)
 </script>
 <template>
   <div class="base-price">
@@ -20,7 +21,7 @@ const discount = props.oldPrice
       {{ `${oldPrice}$` }}
     </div>
     <div class="base-price__new">{{ `${price}$` }}</div>
-    <div v-if="oldPrice" class="base-price__discount">
+    <div v-if="oldPrice && showDiscount" class="base-price__discount">
       {{ `Save ${discount}%` }}
     </div>
   </div>
@@ -36,14 +37,12 @@ const discount = props.oldPrice
   font-size: 24px;
   font-weight: 400;
 
+  color: rgb(72 147 91);
+
   &__old {
     text-decoration: line-through;
 
     color: rgb(8 23 12 / 49.8%);
-  }
-
-  &__new {
-    color: rgb(72 147 91);
   }
 
   &__discount {

@@ -57,8 +57,9 @@ import Link from '@/components/Base/BaseLink.vue'
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
-  background-color: rgb(21, 34, 60);
-  padding: 2.25rem 1rem 3.5rem 1rem;
+  padding: 2.25rem 1rem 3.5rem;
+
+  background-color: rgb(21 34 60);
 
   &__top {
     display: flex;
@@ -73,10 +74,11 @@ import Link from '@/components/Base/BaseLink.vue'
   }
 
   &__email {
-    color: rgb(255, 255, 255);
     font-size: 0.875rem;
     line-height: 1.375rem;
     text-align: left;
+
+    color: rgb(255 255 255);
   }
 
   &__link-section {
@@ -86,9 +88,10 @@ import Link from '@/components/Base/BaseLink.vue'
   }
 
   &__heading {
-    color: rgb(255, 255, 255);
     font-size: 1.125rem;
     line-height: 1.625rem;
+
+    color: rgb(255 255 255);
   }
 
   &__link-container {
@@ -98,21 +101,23 @@ import Link from '@/components/Base/BaseLink.vue'
   }
 
   &__link {
-    color: #fff;
     font-size: 0.875rem;
     font-weight: 500;
+
+    color: #fff;
 
     &:hover {
       text-decoration: underline;
     }
 
     &--button {
-      font-weight: 400;
-      line-height: 1.375rem;
-      height: auto;
-      border-radius: 4px;
       padding: 0.5rem 1.5rem;
       width: fit-content;
+      height: auto;
+      border-radius: 4px;
+
+      font-weight: 400;
+      line-height: 1.375rem;
 
       &:hover {
         text-decoration: none;

@@ -89,16 +89,16 @@ watch(
   transition-timing-function: v-bind('props.transitionEasing');
 
   &__overlay {
-    overscroll-behavior: contain;
     position: fixed;
-    cursor: default;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
-    transition: all 0.3s $ease-in-out;
+    inset: 0;
+
     z-index: $z-overlay;
+
+    background: rgb(0 0 0 / 80%);
+    cursor: default;
+
+    transition: all 0.3s $ease-in-out;
+    overscroll-behavior: contain;
   }
 }
 
@@ -115,6 +115,6 @@ watch(
 
 .fadeIn-leave-from,
 .fadeIn-enter-to {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgb(0 0 0 / 80%);
 }
 </style>

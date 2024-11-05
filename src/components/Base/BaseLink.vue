@@ -29,5 +29,3 @@ const getLinkHref = computed<string>(() => {
     <slot />
   </component>
 </template>
-
-<style scoped lang="scss"></style>

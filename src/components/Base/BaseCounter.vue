@@ -2,17 +2,19 @@
 import { computed } from 'vue'
 import SvgIcon from '@/components/Base/BaseSvgIcon.vue'
 
-interface BaseQuantitySelectorProps {
+interface BaseCounterProps {
   min?: number
   max?: number
 }
 
-const props = withDefaults(defineProps<BaseQuantitySelectorProps>(), {
+const props = withDefaults(defineProps<BaseCounterProps>(), {
   min: 1,
   max: undefined
 })
 
-const quantity = defineModel<number>('modelValue')
+const quantity = defineModel<number>('modelValue', {
+  default: 1
+})
 
 const isMinLimitOrLower = computed<boolean>(() => {
   return quantity.value! > props.min
@@ -28,9 +30,6 @@ const increment = () => {
   if (!isMaxLimitOrHigher.value) return
   quantity.value!++
 }
-</script>
-<script lang="ts">
-import { defineProps, withDefaults } from 'vue'
 </script>
 
 <template>

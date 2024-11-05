@@ -19,9 +19,10 @@ export function getLocalImageLoaders(
 ): Map<LocalImagePath, LocalImageLoader> {
   const { isStrictExtension = true, sortByImagePath = true } = options || {}
 
-  const localImageImports = import.meta.glob<{ default: string }>(
-    '@/assets/img/**/*.{jpg,jpeg,png,webp,avif,gif,svg}'
-  )
+  const localImageImports = import.meta.glob<{ default: string }>([
+    '@/assets/img/**/*.{jpg,jpeg,png,webp,avif,gif}'
+  ])
+  console.log(localImageImports)
   const localImageLoaders: Map<LocalImagePath, LocalImageLoader> = new Map<
     LocalImagePath,
     LocalImageLoader

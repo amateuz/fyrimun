@@ -106,14 +106,16 @@ onMounted(async () => {
   }
 
   .image {
-    clear: both;
-    text-align: center;
     margin: 0.9em auto;
     min-width: 50px;
 
+    clear: both;
+
+    text-align: center;
+
     &_resized {
-      max-width: 100%;
       display: block;
+      max-width: 100%;
       box-sizing: border-box;
     }
   }

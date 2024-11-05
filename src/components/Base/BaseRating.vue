@@ -52,7 +52,7 @@ const props = defineProps<Rating>()
     }
 
     &--grey {
-      fill: hsl(221 22% 56%);
+      fill: hsl(221deg 22% 56%);
     }
   }
 

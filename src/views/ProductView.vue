@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { Product, Option, CartProduct } from '@/types'
 import type { SwiperClass } from 'swiper/swiper-react'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { computed, onUnmounted, ref, watch } from 'vue'
 import { useIntersectionObserver, until } from '@vueuse/core'
+import { getImageForColor } from '@/utils/getImageForColor'
+import { useCartStore } from '@/stores/cart'
 import ProductCarousel from '@/components/Base/BaseCarousel.vue'
 import ProductRating from '@/components/Base/BaseRating.vue'
 import ProductPrice from '@/components/Base/BasePrice.vue'
@@ -19,11 +21,17 @@ import SvgIcon from '@/components/Base/BaseSvgIcon.vue'
 import HtmlRendered from '@/components/Base/BaseRawHtmlRendered.vue'
 import ProductReview from '@/components/Base/BaseReview.vue'
 import ProductQuickAdd from '@/components/Base/BaseQuickWidget.vue'
-import BaseDebug from '@/components/Base/BaseDebug.vue'
+import CartPopup from '@/components/Cart/CartPopup.vue'
 
 const product = defineProps<Product>()
+const emit = defineEmits<{ openCart: [void] }>()
+const cartStore = useCartStore()
 const cartProduct = ref<CartProduct>({
+  name: product.name,
   color: product.colors[0],
+  image: getImageForColor(product, product.colors[0]),
+  oldPrice: product.oldPrice,
+  price: product.price,
   size: product.sizes[0],
   quantity: 1
 } as CartProduct)
@@ -48,6 +56,31 @@ const adjustCarouselToSelectedColor = async (color: Option | null) => {
   carousel.value!.swiper.slideTo(slideToIndex)
 }
 
+const addToCartClick = () => {
+  // add new object to a cart
+  cartStore.addToCart(Object.assign({}, cartProduct.value))
+  requestCartOpen()
+}
+const requestCartOpen = () => {
+  emit('openCart')
+}
+
+const isControlsDisabled = computed(() => {
+  return (
+    cartProduct.value.color === null ||
+    cartProduct.value.size === null ||
+    cartProduct.value.quantity < 1
+  )
+})
+
+watch(
+  () => cartProduct.value.color,
+  (newColor) => {
+    if (newColor === null) return
+    cartProduct.value.image = getImageForColor(product, newColor)
+  }
+)
+
 const { stop: stopMiniCartObserver } = useIntersectionObserver(
   addToCartButtonRef,
   ([entry]) => {
@@ -66,9 +99,6 @@ onUnmounted(() => {
 
 <template>
   <section class="product-view">
-    <BaseDebug>
-      {{ cartProduct }}
-    </BaseDebug>
     <ProductCarousel
       :image-paths="product.images"
       class="product-view__carousel"
@@ -123,11 +153,16 @@ onUnmounted(() => {
           <Button
             ref="addToCartButtonRef"
             class="product-view__button product-view__button--trolley"
+            @click="addToCartClick"
+            :disabled="isControlsDisabled"
           >
             <SvgIcon name="trolley" />
             ADD TO CART
           </Button>
-          <Button class="product-view__button product-view__button--wallet">
+          <Button
+            class="product-view__button product-view__button--wallet"
+            :disabled="isControlsDisabled"
+          >
             <SvgIcon name="wallet" />
             BUY NOW
           </Button>
@@ -164,12 +199,20 @@ onUnmounted(() => {
         </template>
       </div>
     </section>
+    <Transition name="fade">
+      <CartPopup
+        v-if="cartStore.totalQuantity > 0"
+        class="product-view__cart-popup"
+        @click="requestCartOpen"
+      />
+    </Transition>
     <Teleport to="#app">
       <ProductQuickAdd
         v-if="isQuickAddVisible"
-        class="product-view__mini-cart"
+        class="product-view__quick-add"
         v-bind="product"
         v-model="cartProduct"
+        @addButtonClick="addToCartClick"
       />
     </Teleport>
   </section>
@@ -207,9 +250,10 @@ onUnmounted(() => {
     overflow-wrap: break-word;
 
     &--section {
-      color: #1a2d48;
       padding-top: 0.875rem;
       padding-bottom: 0.625rem;
+
+      color: #1a2d48;
     }
   }
 
@@ -254,12 +298,18 @@ onUnmounted(() => {
   }
 
   &__button {
-    color: white;
-    fill: white;
     gap: 0.5rem;
     padding: 12px;
     height: 50px;
     border-radius: 0.25em;
+
+    color: white;
+    fill: white;
+
+    &[disabled] {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
 
     .svg-icon {
       display: block;
@@ -268,15 +318,15 @@ onUnmounted(() => {
     }
 
     &--trolley {
-      background-color: rgb(0, 21, 51);
+      background-color: rgb(0 21 51);
 
       &:hover {
-        background-color: rgba(51, 68, 92, 0.898);
+        background-color: rgb(51 68 92 / 89.8%);
       }
     }
 
     &--wallet {
-      background-color: rgb(246, 82, 25);
+      background-color: rgb(246 82 25);
       stroke: white;
 
       &:hover {
@@ -288,6 +338,7 @@ onUnmounted(() => {
   &__safe-checkout {
     aspect-ratio: auto;
     object-fit: cover;
+
     width: fit-content;
     border-radius: 0.5rem;
   }
@@ -312,10 +363,26 @@ onUnmounted(() => {
     padding-top: 1.625rem;
   }
 
-  &__mini-cart {
+  &__quick-add {
     position: sticky;
     bottom: 0;
     left: 0;
+  }
+
+  &__cart-popup {
+    position: fixed;
+    bottom: 160px;
+    right: 2rem;
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.3s $ease-in-out;
+  }
+
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
   }
 }
 </style>

@@ -24,9 +24,11 @@ export type Product = {
 export type CartProduct = Omit<
   Product,
   | 'url'
+  | 'colorImageMap'
   | 'colors'
   | 'sizes'
   | 'images'
+  | 'description'
   | 'rating'
   | 'ratingCount'
   | 'stockLeft'
@@ -37,5 +39,6 @@ export type CartProduct = Omit<
 > & {
   color: Option
   size: Option
+  image: string
   quantity: number
 }

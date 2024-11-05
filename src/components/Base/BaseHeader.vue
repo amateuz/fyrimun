@@ -5,9 +5,13 @@ import IconMenu from '@/components/Menu/MenuIcon.vue'
 import PanelMenu from '@/components/Menu/MenuSidePanel.vue'
 import PanelCart from '@/components/Cart/CartSidePanel.vue'
 import Button from '@/components/Base/BaseButton.vue'
+import CartCount from '@/components/Cart/CartCount.vue'
+import { useCartStore } from '@/stores/cart'
 
 const isMenuOpened = ref(false)
-const isCartOpened = ref(false)
+const isCartOpened = defineModel('modelValue', { default: false })
+
+const cartStore = useCartStore()
 
 const toggleMenu = () => {
   isMenuOpened.value = !isMenuOpened.value
@@ -44,6 +48,7 @@ const toggleCart = () => {
       >
         <IconCart />
       </Button>
+      <CartCount class="header-actions__cart-counter" />
     </div>
 
     <PanelMenu v-model="isMenuOpened" />
@@ -86,6 +91,13 @@ const toggleCart = () => {
     justify-content: center;
     align-items: center;
     padding: 8px;
+    position: relative;
+  }
+
+  &__cart-counter {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }
 </style>

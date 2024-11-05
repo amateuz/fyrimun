@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Swiper as SwiperClass } from 'swiper/types'
 import type { LocalImagePath, LocalImageLoader } from '@/types'
-import { ref, onMounted, onBeforeMount, watch } from 'vue'
+import { ref, onMounted, onBeforeMount } from 'vue'
 import { until } from '@vueuse/core'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules'
@@ -110,6 +110,17 @@ defineExpose({
 /* onMounted(async () => {
 await fixSlideToClickedSlide()
 }) */
+// custom func, swiper glitches sometimes
+const slideToThis = (e: Event) => {
+  const imgHref = (e.target as HTMLElement).getAttribute('src')
+  const foundPath = allImagesPaths.find((path) => path === imgHref)
+  if (!foundPath) return
+  const slideToIndex = allImagesPaths.indexOf(foundPath)
+  if (slideToIndex < 0) return
+  contentSwiper.value?.slideTo(slideToIndex)
+}
+
+const isLoading = ref(Array(allImagesPaths.length).fill(true))
 </script>
 <template>
   <div class="base-carousel-block">
@@ -123,6 +134,7 @@ await fixSlideToClickedSlide()
         :slidesPerView="1"
         :spaceBetween="10"
         :speed="700"
+        :lazy="true"
         :thumbs="{ swiper: thumbsSwiper }"
         :wrapperClass="'base-carousel-block__wrap base-carousel-block__wrap--content'"
         class="base-carousel-block__carousel base-carousel base-carousel--content"
@@ -138,12 +150,18 @@ await fixSlideToClickedSlide()
           ]"
         >
           <img
+            v-if="isLoading[index]"
+            class="swiper-lazy-preloader"
+            :src="'img/placeholder.png'"
+            alt="carousel slide placeholder"
+          />
+          <img
             :src="image"
             :alt="'Slide ' + (index + 1)"
-            loading="lazy"
+            :loading="index === 0 ? 'eager' : 'lazy'"
             class="base-carousel-slide__img swiper-lazy"
+            @load="isLoading[index] = false"
           />
-          <div class="swiper-lazy-preloader"></div>
         </swiper-slide>
       </swiper>
       <button class="base-carousel__prev">
@@ -159,8 +177,8 @@ await fixSlideToClickedSlide()
         :centeredSlidesBounds="true"
         :freeMode="true"
         :modules="[FreeMode]"
-        :slideToClickedSlide="true"
         :slidesPerView="'auto'"
+        :lazy="true"
         :wrapperClass="'base-carousel-block__wrap base-carousel-block__wrap--thumbs'"
         class="base-carousel-block__carousel base-carousel base-carousel--thumbs"
         @swiper="setThumbsSwiper"
@@ -174,12 +192,19 @@ await fixSlideToClickedSlide()
           ]"
         >
           <img
-            :src="image"
-            :alt="'Thumbnail ' + (index + 1)"
-            loading="lazy"
-            class="base-carousel-slide__img swiper-lazy"
+            v-if="isLoading[index]"
+            class="swiper-lazy-preloader"
+            :src="'img/placeholder.png'"
+            alt="carousel slide placeholder"
           />
-          <div class="swiper-lazy-preloader"></div>
+          <img
+            :alt="'Thumbnail ' + (index + 1)"
+            :src="image"
+            class="base-carousel-slide__img swiper-lazy"
+            :loading="index === 0 ? 'eager' : 'lazy'"
+            @click="slideToThis($event)"
+            @load="isLoading[index] = false"
+          />
         </swiper-slide>
       </swiper>
     </div>
@@ -192,6 +217,7 @@ await fixSlideToClickedSlide()
 
   &__content {
     display: flex;
+
     position: relative;
   }
 
@@ -203,6 +229,7 @@ await fixSlideToClickedSlide()
   &__wrap {
     display: flex;
     align-items: stretch;
+
     position: relative;
   }
 }
@@ -296,15 +323,15 @@ await fixSlideToClickedSlide()
 .swiper-lazy-preloader {
   width: 100%;
   height: 100%;
-  animation: colorChange 1s $ease-in-out infinite;
-  min-height: 1000px;
+
+  // animation: color-change 1s $ease-in-out infinite;
 }
 
-.swiper-lazy-preloader:after {
+.swiper-lazy-preloader::after {
   display: none;
 }
 
-@keyframes colorChange {
+@keyframes color-change {
   0% {
     color: #0a0a0a;
   }

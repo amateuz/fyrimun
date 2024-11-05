@@ -40,31 +40,34 @@ const formattedTime = ref(
 
   &__name,
   &__date {
-    font-weight: 500;
     font-size: 0.75rem;
+    font-weight: 500;
     line-height: 1.125rem;
   }
 
   &__name,
   &__text {
-    color: hsl(228 40% 16%);
+    color: hsl(228deg 40% 16%);
   }
 
   &__date {
-    color: hsl(221 22% 56%);
     margin-top: 0.5rem;
+
+    color: hsl(221deg 22% 56%);
   }
 
   &__rating {
-    position: relative;
     display: inline-flex;
+
+    position: relative;
   }
 
   &__text {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
     margin-top: 1rem;
     margin-bottom: 0.5rem;
+
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
 }
 </style>

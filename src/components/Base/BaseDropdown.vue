@@ -12,8 +12,8 @@ defineProps<DropdownProps>()
 const isOpen = ref(false)
 const dropdownRef = ref(null)
 
-const selectedOption = defineModel<Option>('modelValue', {
-  default: {}
+const selectedOption = defineModel<Option | null>('modelValue', {
+  default: null
 })
 
 const toggleDropdown = () => {
@@ -23,7 +23,7 @@ const closeDropdown = () => {
   isOpen.value = false
 }
 const isSelected = (option: Option) => {
-  return selectedOption.value.value === option.value
+  return selectedOption.value?.value === option.value
 }
 const selectOption = (option: Option) => {
   selectedOption.value = option
@@ -66,20 +66,23 @@ onClickOutside(dropdownRef, closeDropdown)
 
 <style scoped lang="scss">
 .dropdown {
-  position: relative;
   width: 100%;
+
+  position: relative;
 }
 
 .dropdown-toggle {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
-  border: 1px solid #ccc;
   padding: 10px;
-  cursor: pointer;
-  font-size: 0.875rem;
   width: 100%;
+  border: 1px solid #ccc;
+
+  font-size: 0.875rem;
+
+  background-color: white;
+  cursor: pointer;
 
   &__icon-container {
     width: 20px;
@@ -101,49 +104,52 @@ onClickOutside(dropdownRef, closeDropdown)
 }
 
 .dropdown-menu {
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -2px rgba(0, 0, 0, 0.1);
-  color: rgb(15, 23, 42);
-  list-style: none;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  width: 100%;
+  max-height: 340px;
+  min-width: 8rem;
+  border: 0.8px solid rgb(225 228 234);
+  overflow: hidden auto;
+
   position: absolute;
   bottom: 100%;
   left: 0;
-  background-color: #ffffff;
-  border: 0.8px solid rgb(225, 228, 234);
-
-  max-height: 340px;
-  overflow-y: auto;
-  overflow-x: hidden;
   z-index: $z-dropdown;
-  width: 100%;
-
-  min-width: 8rem;
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+  transform: translateY(0.25rem);
 
   line-height: 1.5rem;
-  transform: translateY(0.25rem);
+
+  background-color: #fff;
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 10%),
+    0 2px 4px -2px rgb(0 0 0 / 10%);
+  color: rgb(15 23 42);
+  list-style: none;
 
   overscroll-behavior: contain;
 }
 
 .dropdown-item {
-  padding: 0.75rem 2.25rem 0.75rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  white-space: nowrap;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0.75rem 2.25rem 0.75rem 1rem;
+  border-radius: 4px;
+
   position: relative;
+
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  white-space: nowrap;
+
+  cursor: pointer;
 
   &__icon-container {
     display: flex;
     justify-content: center;
     align-items: center;
+
     position: absolute;
     right: 0.5rem;
   }

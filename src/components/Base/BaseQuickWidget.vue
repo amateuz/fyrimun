@@ -10,25 +10,30 @@ const product = defineProps<Product>()
 const cartProduct = defineModel<CartProduct>('modelValue', {
   default: {}
 })
+const emit = defineEmits<{ addButtonClick: [void] }>()
 
-const getMergedOption = (colorOption: Option, sizeOption: Option): Option => {
+const getMergedOption = (
+  colorOption: Option,
+  sizeOption: Option
+): Option | null => {
+  if (colorOption === null || sizeOption === null) return null
   return {
     label: `${colorOption.label}/${sizeOption.label}`,
     value: `${colorOption.value}/${sizeOption.value}`
   }
 }
 
-const getMergedOptions = computed((): Option[] => {
+const getMergedOptions = computed<Option[]>(() => {
   return product.colors.flatMap((colorOption) => {
-    return product.sizes.map((sizeOption) =>
-      getMergedOption(colorOption, sizeOption)
-    )
+    return product.sizes
+      .map((sizeOption) => getMergedOption(colorOption, sizeOption))
+      .filter((option) => option !== null)
   })
 })
 
 // cart product model
-const selectedProductParams = ref<Option>(
-  getMergedOption(cartProduct.value!.color, cartProduct.value!.size)
+const selectedProductParams = ref<Option | null>(
+  getMergedOption(cartProduct.value.color, cartProduct.value.size)
 )
 const selectedProductQuantity = ref<number>(cartProduct.value!.quantity)
 
@@ -44,13 +49,32 @@ const reviveMergedOption = (
   }
 }
 
+const addButtonClick = () => {
+  emit('addButtonClick')
+}
+
+const isControlDisabled = computed<boolean>(() => {
+  return (
+    selectedProductParams.value === null || selectedProductQuantity.value < 1
+  )
+})
+
 watchEffect(() => {
-  const { color, size } = reviveMergedOption(selectedProductParams.value)
-  cartProduct.value = Object.assign(cartProduct.value, {
-    color,
-    size,
+  const updatedParams: {
+    color: Option | null
+    size: Option | null
+    quantity: number
+  } = {
+    color: null,
+    size: null,
     quantity: selectedProductQuantity.value
-  })
+  }
+  if (selectedProductParams.value !== null) {
+    const { color, size } = reviveMergedOption(selectedProductParams.value)
+    updatedParams.color = color
+    updatedParams.size = size
+  }
+  cartProduct.value = Object.assign(cartProduct.value, updatedParams)
 })
 </script>
 
@@ -66,7 +90,12 @@ watchEffect(() => {
         v-model="selectedProductQuantity"
         class="base-quick-widget__counter"
       />
-      <Button class="base-quick-widget__button" type="accent">
+      <Button
+        class="base-quick-widget__button"
+        type="accent"
+        @click="addButtonClick"
+        :disabled="isControlDisabled"
+      >
         <SvgIcon name="cart" />
         ADD TO CART
       </Button>
@@ -79,15 +108,17 @@ watchEffect(() => {
   display: flex;
   flex-direction: column;
   gap: 0;
-  background-color: #ffffff;
-  z-index: $z-dropdown;
-  overscroll-behavior: contain;
-
-  border-color: hsl(220 17% 90%);
-  box-shadow: 0 2px 4px 4px rgba(99, 99, 99, 0.2);
   padding-bottom: 1.25rem;
+  border-color: hsl(220deg 17% 90%);
+
+  z-index: $z-dropdown;
+
+  background-color: #fff;
+  box-shadow: 0 2px 4px 4px rgb(99 99 99 / 20%);
+
   transition-duration: 0.3s;
   transition-timing-function: $ease-in-out;
+  overscroll-behavior: contain;
 
   &__dropdown {
     width: 100%;
@@ -106,6 +137,11 @@ watchEffect(() => {
 
   &__button {
     gap: 0.5rem;
+
+    &[disabled] {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
 
     .svg-icon {
       display: block;

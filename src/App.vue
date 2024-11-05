@@ -1,13 +1,19 @@
 <script lang="ts" setup>
+import { ref } from 'vue'
 import { RouterView } from 'vue-router'
 import AppHeader from '@/components/Layout/AppHeader.vue'
 import AppFooter from '@/components/Layout/AppFooter.vue'
+
+const isCartMenuOpened = ref<boolean>(false)
+const openCartMenu = () => {
+  isCartMenuOpened.value = true
+}
 </script>
 
 <template>
-  <AppHeader />
+  <AppHeader v-model="isCartMenuOpened" />
   <main class="main">
-    <RouterView />
+    <RouterView @openCart="openCartMenu" />
   </main>
   <AppFooter />
 </template>

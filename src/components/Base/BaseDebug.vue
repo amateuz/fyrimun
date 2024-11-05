@@ -8,14 +8,14 @@
 
 <style scoped lang="scss">
 .base-debug {
-  position: fixed;
   height: auto;
   max-height: 100px;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+
+  position: fixed;
+  inset: 0;
+
   z-index: 9999;
+
   background-color: #8d96a4;
 }
 </style>

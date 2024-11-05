@@ -8,16 +8,14 @@ interface BaseGroupSelectOptions {
   preSelectedIndex?: number
 }
 
-const selectedOption = defineModel<Option | null>('modelValue', {
-  default: {}
-})
+const selectedOption = defineModel<Option | null>('modelValue', { default: {} })
 const props = withDefaults(defineProps<BaseGroupSelectOptions>(), {
   preSelectedIndex: 0
 })
-const emit = defineEmits<{ (e: 'select', value: Option | null): void }>()
+const emit = defineEmits<{ select: [value: Option | null] }>()
 
 const handleSelect = (option: Option) => {
-  if (selectedOption.value === option) {
+  if (selectedOption.value?.value === option.value) {
     selectedOption.value = null
   } else {
     selectedOption.value = option
