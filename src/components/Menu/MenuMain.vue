@@ -59,7 +59,7 @@ import Link from '@/components/Base/BaseLink.vue'
     text-transform: uppercase;
     text-decoration: none;
 
-    color: color: $color-grey-5;
+    color: $color-grey-5;
 
     transition: color 0.2s cubic-bezier(0, 0, 0.2, 1);
 

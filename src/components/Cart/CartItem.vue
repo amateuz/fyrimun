@@ -161,7 +161,7 @@ const removeItem = () => {
     font-weight: 400;
     text-align: left;
 
-    color: color: $color-grey-5;
+    color: $color-grey-5;
   }
 
   &__remove {

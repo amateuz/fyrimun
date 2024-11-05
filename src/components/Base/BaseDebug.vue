@@ -16,6 +16,6 @@
 
   z-index: 9999;
 
-  background-color: color: $color-grey-5;
+  background-color: $color-grey-5;
 }
 </style>

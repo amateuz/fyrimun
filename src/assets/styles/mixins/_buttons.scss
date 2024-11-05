@@ -1,3 +1,6 @@
+@use '../variables/colors' as *;
+@use '../variables/easing' as *;
+
 @mixin button-base(
   $width: fit-content,
   $height: auto,
