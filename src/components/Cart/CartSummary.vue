@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useCartStore } from '@/stores/cart'
-import Button from '@/components/Base/BaseButton.vue'
 import Link from '@/components/Base/BaseLink.vue'
 
 const cartStore = useCartStore()
@@ -30,15 +29,20 @@ const getFormattedTotalPrice = computed(() => {
       </div>
     </div>
     <div class="cart-summary__links">
-      <Link to="/cart">View My Cart</Link>
-      <Link to="/checkout" type="accent">Process To Secure Checkout</Link>
+      <Link class="cart-summary__link cart-summary__link--basic" to="/cart"
+        >View My Cart
+      </Link>
+      <Link
+        class="cart-summary__link cart-summary__link--accent"
+        to="/checkout"
+        type="accent"
+        >Process To Secure Checkout
+      </Link>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-@use '@/assets/styles/mixins/font-family' as *;
-
 .cart-summary {
   @include font-family(Poppins);
 
@@ -83,6 +87,20 @@ const getFormattedTotalPrice = computed(() => {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+  }
+
+  &__link {
+    @include button-shared;
+    width: 100%;
+    height: 2.75rem;
+
+    &--basic {
+      @include button-basic($hover: false);
+    }
+
+    &--accent {
+      @include button-accent($hover: false);
+    }
   }
 }
 </style>
