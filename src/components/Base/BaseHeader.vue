@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import IconCart from '@/assets/img/icons/cart.svg'
 import IconMenu from '@/components/Menu/MenuIcon.vue'
 import PanelMenu from '@/components/Menu/MenuSidePanel.vue'
 import PanelCart from '@/components/Cart/CartSidePanel.vue'
 import Button from '@/components/Base/BaseButton.vue'
 import CartCount from '@/components/Cart/CartCount.vue'
-import { useCartStore } from '@/stores/cart'
+import { useNoAnimation } from '@/composables/useNoAnimation'
 
-const isMenuOpened = ref(false)
-const isCartOpened = defineModel('modelValue', { default: false })
-
-const cartStore = useCartStore()
+const { isNoAnimation } = useNoAnimation()
+console.log('animation', isNoAnimation)
+const isMenuOpened = defineModel('isMenuOpened', { default: false })
+const isCartOpened = defineModel('isCartOpened', { default: false })
 
 const toggleMenu = () => {
   isMenuOpened.value = !isMenuOpened.value
@@ -51,8 +50,16 @@ const toggleCart = () => {
       <CartCount class="header-actions__cart-counter" />
     </div>
 
-    <PanelMenu v-model="isMenuOpened" />
-    <PanelCart v-model="isCartOpened" />
+    <PanelMenu
+      class="header-actions__menu"
+      v-model="isMenuOpened"
+      :is-animated="!isNoAnimation"
+    />
+    <PanelCart
+      class="header-actions__cart"
+      v-model="isCartOpened"
+      :is-animated="!isNoAnimation"
+    />
   </header>
 </template>
 

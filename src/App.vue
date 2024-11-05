@@ -1,17 +1,36 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { RouterView } from 'vue-router'
+import { RouterView, useRouter } from 'vue-router'
+import { useNoAnimation } from '@/composables/useNoAnimation'
 import AppHeader from '@/components/Layout/AppHeader.vue'
 import AppFooter from '@/components/Layout/AppFooter.vue'
 
-const isCartMenuOpened = ref<boolean>(false)
+const isMenuOpened = ref<boolean>(false)
+const isCartOpened = ref<boolean>(false)
+const animation = useNoAnimation()
 const openCartMenu = () => {
-  isCartMenuOpened.value = true
+  isCartOpened.value = true
 }
+const closeMenus = () => {
+  isMenuOpened.value = false
+  isCartOpened.value = false
+}
+
+const router = useRouter()
+router.beforeEach(() => {
+  animation.disableAnimation()
+  closeMenus()
+})
+router.afterEach(() => {
+  animation.enableAnimation()
+})
 </script>
 
 <template>
-  <AppHeader v-model="isCartMenuOpened" />
+  <AppHeader
+    v-model:is-cart-opened="isCartOpened"
+    v-model:is-menu-opened="isMenuOpened"
+  />
   <main class="main">
     <RouterView @openCart="openCartMenu" />
   </main>

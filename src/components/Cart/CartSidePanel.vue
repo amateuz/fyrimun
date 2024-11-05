@@ -1,19 +1,23 @@
 <script setup lang="ts">
-import PanelSide from '@/components/Base/BaseSidePanel.vue'
+import SidePanel from '@/components/Base/BaseSidePanel.vue'
 import IconClose from '@/assets/img/icons/close-cart.svg'
 import CartWidget from '@/components/Cart/CartWidget.vue'
 
 const isOpened = defineModel<boolean>('modelValue')
+const props = withDefaults(defineProps<{ isAnimated: boolean }>(), {
+  isAnimated: true
+})
 </script>
 
 <template>
-  <PanelSide
+  <SidePanel
     v-model="isOpened"
     class="panel-side-cart"
     width="100%"
     max-width="500px"
     position="right"
     transition-duration="500ms"
+    :is-animated="props.isAnimated"
   >
     <template #panel-side-top="{ closePanel }">
       <div class="panel-side-cart__top">
@@ -30,12 +34,10 @@ const isOpened = defineModel<boolean>('modelValue')
     <div class="panel-side-cart__content">
       <CartWidget />
     </div>
-  </PanelSide>
+  </SidePanel>
 </template>
 
 <style scoped lang="scss">
-@use '@/assets/styles/mixins/font-family' as *;
-
 .panel-side-cart {
   display: flex;
   flex-direction: column;

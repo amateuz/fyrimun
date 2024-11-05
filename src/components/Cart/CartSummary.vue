@@ -54,7 +54,7 @@ const getFormattedTotalPrice = computed(() => {
   margin-top: auto;
   padding: 1rem;
 
-  font-size: 14px;
+  font-size: 0.875rem;
 
   color: $color-dark;
   border-top: 1px solid $color-grey--15;
@@ -74,12 +74,12 @@ const getFormattedTotalPrice = computed(() => {
 
   &__text {
     &--accent {
-      font-size: 18px;
+      font-size: 1.125rem;
       font-weight: 600;
     }
 
     &--large {
-      font-size: 16px;
+      font-size: 1rem;
     }
   }
 

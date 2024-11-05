@@ -5,6 +5,7 @@ import { onClickOutside } from '@vueuse/core'
 
 interface PanelSideProps {
   viewOverlayOnOpen?: boolean
+  isAnimated?: boolean
   position?: 'left' | 'right'
   width?: Properties['width']
   maxWidth?: Properties['maxWidth']
@@ -14,6 +15,7 @@ interface PanelSideProps {
 
 const props = withDefaults(defineProps<PanelSideProps>(), {
   viewOverlayOnOpen: true,
+  isAnimated: true,
   position: 'left',
   width: '18rem',
   maxWidth: 'unset',
@@ -22,22 +24,27 @@ const props = withDefaults(defineProps<PanelSideProps>(), {
 })
 
 const isOpened = defineModel<boolean>('modelValue')
-
 const panelSideRef = ref(null)
 
-const PanelSideComputedStyles = computed(() => ({
+const panelSideComputedStyles = computed(() => ({
   transform: isOpened.value
     ? 'translateX(0)'
     : props.position === 'left'
       ? 'translateX(-100%)'
       : 'translateX(100%)',
-  [props.position]: '0'
+  [props.position]: '0',
+  transitionDuration: props.transitionDuration,
+  transitionProperty: props.isAnimated ? 'transform' : 'none',
+  transitionTimingFunction: props.transitionEasing
 }))
+
+const overlayTransitionProp = computed(() => {
+  return props.isAnimated ? 'background-color' : 'none'
+})
 
 const closePanel = () => {
   isOpened.value = false
 }
-
 onClickOutside(panelSideRef, closePanel)
 
 watch(
@@ -52,7 +59,7 @@ watch(
 <template>
   <aside
     ref="panelSideRef"
-    :style="PanelSideComputedStyles"
+    :style="panelSideComputedStyles"
     aria-modal="true"
     class="panel-side"
     role="dialog"
@@ -84,10 +91,6 @@ watch(
     0 10px 15px -3px $color-grey-transparent--5,
     0 4px 6px -4px $color-grey-transparent--5;
 
-  transition-duration: v-bind('props.transitionDuration');
-  transition-property: transform;
-  transition-timing-function: v-bind('props.transitionEasing');
-
   &__overlay {
     position: fixed;
     inset: 0;
@@ -97,7 +100,6 @@ watch(
     background-color: $color-grey-transparent-20;
     cursor: default;
 
-    transition: all 0.3s $ease-in-out;
     overscroll-behavior: contain;
   }
 }
@@ -105,7 +107,9 @@ watch(
 /* transition */
 .fadeIn-enter-active,
 .fadeIn-leave-active {
-  transition: background-color 0.15s ease-in-out;
+  transition-property: v-bind('overlayTransitionProp');
+  transition-duration: 0.15s;
+  transition-timing-function: $ease-in-out;
 }
 
 .fadeIn-enter-from,
