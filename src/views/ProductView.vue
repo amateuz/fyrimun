@@ -246,14 +246,14 @@ onUnmounted(() => {
     line-height: 40px;
     text-align: left;
 
-    color: rgb(1 8 39);
+    color: $color-dark-20;
     overflow-wrap: break-word;
 
     &--section {
       padding-top: 0.875rem;
       padding-bottom: 0.625rem;
 
-      color: #1a2d48;
+      color: $color-dark;
     }
   }
 
@@ -318,19 +318,19 @@ onUnmounted(() => {
     }
 
     &--trolley {
-      background-color: rgb(0 21 51);
+      background-color: $color-dark-25;
 
       &:hover {
-        background-color: rgb(51 68 92 / 89.8%);
+        background-color: $color-grey-transparent--20;
       }
     }
 
     &--wallet {
-      background-color: rgb(246 82 25);
-      stroke: white;
+      background-color: $color-red--5;
+      stroke: $color-white;
 
       &:hover {
-        background-color: #f87547;
+        background-color: $color-red--10;
       }
     }
   }

@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useCartStore } from '@/stores/cart'
-import BaseButton from '@/components/Base/BaseButton.vue'
+import Button from '@/components/Base/BaseButton.vue'
+import Link from '@/components/Base/BaseLink.vue'
 
 const cartStore = useCartStore()
 const getFormattedTotalPrice = computed(() => {
@@ -28,9 +29,9 @@ const getFormattedTotalPrice = computed(() => {
         }}</span>
       </div>
     </div>
-    <div class="cart-summary__buttons">
-      <BaseButton>View My Cart</BaseButton>
-      <BaseButton type="accent">Process To Secure Checkout</BaseButton>
+    <div class="cart-summary__links">
+      <Link to="/cart">View My Cart</Link>
+      <Link to="/checkout" type="accent">Process To Secure Checkout</Link>
     </div>
   </div>
 </template>
@@ -51,8 +52,8 @@ const getFormattedTotalPrice = computed(() => {
 
   font-size: 14px;
 
-  color: #1a2d48;
-  border-top: 1px solid hsl(220deg 17% 90%);
+  color: $color-dark;
+  border-top: 1px solid $color-grey--15;
 
   &__total {
     display: flex;
@@ -78,7 +79,7 @@ const getFormattedTotalPrice = computed(() => {
     }
   }
 
-  &__buttons {
+  &__links {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;

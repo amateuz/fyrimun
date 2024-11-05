@@ -51,7 +51,7 @@ onUnmounted(() => {
   @include font-family(Poppins);
   font-size: 1rem;
 
-  color: #1a2d48;
+  color: $color-dark;
 
   &__count {
     font-weight: 700;

@@ -28,7 +28,7 @@ html {
 }
 
 body {
-  color: rgb(15, 23, 42);
+  color: $color-dark-5;
   min-height: 100vh;
   font-family: map-get($root-variables, def-font-family);
   font-size: map-get($root-variables, def-font-size);

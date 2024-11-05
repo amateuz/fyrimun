@@ -40,16 +40,16 @@ const props = withDefaults(defineProps<BaseButtonProps>(), {
   font-size: 1rem;
 
   &--basic {
-    background: #d1d5da;
-    color: #1a2d48;
+    background-color: $color-grey;
+    color: $color-dark;
   }
 
   &--accent {
-    background-color: #f65219ff;
-    color: #fff;
+    background-color: $color-red--5;
+    color: $color-white;
 
     &:hover {
-      background-color: #f87547;
+      background-color: $color-red--10;
     }
   }
 }

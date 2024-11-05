@@ -47,13 +47,13 @@ const formattedTime = ref(
 
   &__name,
   &__text {
-    color: hsl(228deg 40% 16%);
+    color: $color-dark-4;
   }
 
   &__date {
     margin-top: 0.5rem;
 
-    color: hsl(221deg 22% 56%);
+    color: $color-grey-3;
   }
 
   &__rating {

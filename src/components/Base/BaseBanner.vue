@@ -31,7 +31,7 @@ defineProps<BaseBannerProps>()
 
   text-align: center;
 
-  background: rgb(246 82 25);
-  color: white;
+  background-color: $color-red--5;
+  color: $color-white;
 }
 </style>

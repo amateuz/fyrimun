@@ -297,14 +297,13 @@ const isLoading = ref(Array(allImagesPaths.length).fill(true))
     padding-left: 12px;
 
     #{$r}__img {
-      width: 84px;
-
       cursor: pointer;
+      width: 84px;
     }
 
     &#{$r}--selected {
       #{$r}__img {
-        border: 2px solid #0a0a0a;
+        border: 2px solid $color-dark-15;
       }
     }
   }
@@ -329,19 +328,5 @@ const isLoading = ref(Array(allImagesPaths.length).fill(true))
 
 .swiper-lazy-preloader::after {
   display: none;
-}
-
-@keyframes color-change {
-  0% {
-    color: #0a0a0a;
-  }
-
-  50% {
-    color: #d1d5da;
-  }
-
-  100% {
-    color: #0a0a0a;
-  }
 }
 </style>

@@ -1,0 +1,30 @@
+@mixin button-base(
+  $width: fit-content,
+  $height: auto,
+  $color: $color-dark,
+  $background-color: $color-grey
+) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: $width;
+  height: $height;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: $background-color;
+  color: $color;
+  cursor: pointer;
+  transition: background-color 0.3s $ease-in-out;
+}
+
+@mixin button-basic {
+  @include button-base($color: $color-dark, $background-color: $color-grey);
+}
+
+@mixin button-accent {
+  @include button-base($color: $color-white, $background-color: $color-red--5);
+
+  &:hover {
+    background-color: $color-red--10;
+  }
+}

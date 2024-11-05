@@ -21,8 +21,8 @@ const cartStore = useCartStore()
   justify-content: center;
   align-items: center;
   border-radius: 100%;
-  background-color: #d11d10;
-  color: #fff;
+  background-color: $color-red;
+  color: $color-white;
   width: 16px;
   height: 16px;
   font-size: 0.75rem;

@@ -25,13 +25,13 @@ defineProps<CustomerStatsProductProps>()
   @include font-family(Poppins);
   font-size: 1rem;
 
-  color: #1a2d48;
+  color: $color-dark;
 
   &__highlight {
     font-size: 1.25rem;
     font-weight: bolder;
 
-    color: #eb403d;
+    color: $color-red--7;
   }
 }
 </style>

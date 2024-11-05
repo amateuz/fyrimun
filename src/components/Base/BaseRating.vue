@@ -35,7 +35,7 @@ const props = defineProps<Rating>()
   align-items: center;
   gap: 0.75rem;
 
-  color: #1a2d48;
+  color: $color-dark;
 
   &__rating {
     display: flex;
@@ -48,11 +48,11 @@ const props = defineProps<Rating>()
     height: 14px;
 
     &--gold {
-      fill: rgb(255 200 102);
+      fill: $color-gold--5;
     }
 
     &--grey {
-      fill: hsl(221deg 22% 56%);
+      fill: $color-grey-3;
     }
   }
 

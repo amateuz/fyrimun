@@ -109,12 +109,12 @@ watchEffect(() => {
   flex-direction: column;
   gap: 0;
   padding-bottom: 1.25rem;
-  border-color: hsl(220deg 17% 90%);
+  border-color: $color-grey--15;
 
   z-index: $z-dropdown;
 
-  background-color: #fff;
-  box-shadow: 0 2px 4px 4px rgb(99 99 99 / 20%);
+  background-color: $color-white;
+  box-shadow: 0 2px 4px 4px $color-grey-transparent--10;
 
   transition-duration: 0.3s;
   transition-timing-function: $ease-in-out;

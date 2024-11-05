@@ -57,8 +57,8 @@ const isOpened = defineModel<boolean>('modelValue')
 
     font-size: 1rem;
 
-    color: #1a2d48;
-    border-bottom: 1px solid hsl(220deg 17% 90%);
+    color: $color-dark;
+    border-bottom: 1px solid $color-grey--15;
   }
 
   &__close-button {

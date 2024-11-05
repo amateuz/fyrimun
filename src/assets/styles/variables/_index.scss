@@ -1,3 +1,4 @@
-@import 'easing';
-@import 'root';
-@import 'z-index';
+@forward 'easing';
+@forward 'root';
+@forward 'z-index';
+@forward 'colors';

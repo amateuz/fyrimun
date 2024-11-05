@@ -63,7 +63,7 @@ const toggleCart = () => {
   align-items: center;
   padding-block: calc(10px + 0.25rem);
   padding-inline: calc(16px + 0.25rem);
-  border-bottom: 0.8px solid hsl(220deg 17% 90%);
+  border-bottom: 0.8px solid $color-grey--15;
 
   &__button {
     width: 20px;

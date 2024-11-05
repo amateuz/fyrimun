@@ -79,10 +79,10 @@ watch(
   bottom: 0;
   z-index: $z-modal;
 
-  background-color: #fff;
+  background-color: $color-white;
   box-shadow:
-    0 10px 15px -3px rgb(0 0 0 / 10%),
-    0 4px 6px -4px rgb(0 0 0 / 10%);
+    0 10px 15px -3px $color-grey-transparent--5,
+    0 4px 6px -4px $color-grey-transparent--5;
 
   transition-duration: v-bind('props.transitionDuration');
   transition-property: transform;
@@ -94,7 +94,7 @@ watch(
 
     z-index: $z-overlay;
 
-    background: rgb(0 0 0 / 80%);
+    background-color: $color-grey-transparent-20;
     cursor: default;
 
     transition: all 0.3s $ease-in-out;
@@ -115,6 +115,6 @@ watch(
 
 .fadeIn-leave-from,
 .fadeIn-enter-to {
-  background-color: rgb(0 0 0 / 80%);
+  background-color: $color-grey-transparent-20;
 }
 </style>

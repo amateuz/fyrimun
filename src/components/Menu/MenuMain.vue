@@ -59,12 +59,12 @@ import Link from '@/components/Base/BaseLink.vue'
     text-transform: uppercase;
     text-decoration: none;
 
-    color: #8d96a4;
+    color: color: $color-grey-5;
 
     transition: color 0.2s cubic-bezier(0, 0, 0.2, 1);
 
     &:hover {
-      color: #1a2d48;
+      color: $color-dark;
     }
   }
 }

@@ -29,7 +29,7 @@ const props = defineProps<{ items: ListItem[] }>()
 
   font-size: 0.875rem;
 
-  color: #1a2d48;
+  color: $color-dark;
   list-style: none;
 
   &__item {
@@ -46,7 +46,7 @@ const props = defineProps<{ items: ListItem[] }>()
   }
 
   &__icon {
-    fill: #48576d;
+    fill: $color-grey-13;
   }
 }
 </style>

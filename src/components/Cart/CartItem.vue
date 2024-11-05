@@ -95,12 +95,12 @@ const removeItem = () => {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
 
-  border-bottom: 1px solid hsl(220 17% 90%);
+  border-bottom: 1px solid $color-grey--15;
 
   &__img-container {
     width: 52px;
     height: 52px;
-    border: 1px solid hsl(217 16% 84%);
+    border: 1px solid $color-grey--1;
     border-radius: 0.5rem;
     flex-shrink: 0;
     position: relative;
@@ -114,7 +114,7 @@ const removeItem = () => {
   }
 
   &__cart-counter {
-    background-color: hsl(1 81% 58%);
+    background-color: $color-red--7;
     position: absolute;
     top: 0;
     right: 0;
@@ -153,7 +153,7 @@ const removeItem = () => {
     font-weight: 400;
     text-align: left;
 
-    color: #1a2d48;
+    color: $color-dark;
   }
 
   &__variant {
@@ -161,7 +161,7 @@ const removeItem = () => {
     font-weight: 400;
     text-align: left;
 
-    color: #8d96a4;
+    color: color: $color-grey-5;
   }
 
   &__remove {
@@ -205,7 +205,7 @@ const removeItem = () => {
 
     font-size: 0.875rem;
 
-    color: #1a2d48;
+    color: $color-dark;
   }
 }
 </style>

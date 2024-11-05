@@ -77,11 +77,11 @@ onClickOutside(dropdownRef, closeDropdown)
   align-items: center;
   padding: 10px;
   width: 100%;
-  border: 1px solid #ccc;
+  border: 1px solid $color-grey--20;
 
   font-size: 0.875rem;
 
-  background-color: white;
+  background-color: $color-white;
   cursor: pointer;
 
   &__icon-container {
@@ -109,7 +109,7 @@ onClickOutside(dropdownRef, closeDropdown)
   width: 100%;
   max-height: 340px;
   min-width: 8rem;
-  border: 0.8px solid rgb(225 228 234);
+  border: 0.8px solid $color-grey--15;
   overflow: hidden auto;
 
   position: absolute;
@@ -120,11 +120,11 @@ onClickOutside(dropdownRef, closeDropdown)
 
   line-height: 1.5rem;
 
-  background-color: #fff;
+  background-color: $color-white;
   box-shadow:
-    0 4px 6px -1px rgb(0 0 0 / 10%),
-    0 2px 4px -2px rgb(0 0 0 / 10%);
-  color: rgb(15 23 42);
+    0 4px 6px -1px $color-grey-transparent--5,
+    0 2px 4px -2px $color-grey-transparent--5;
+  color: $color-dark-5;
   list-style: none;
 
   overscroll-behavior: contain;
@@ -160,7 +160,7 @@ onClickOutside(dropdownRef, closeDropdown)
   }
 
   &:hover {
-    background-color: #fafafa;
+    background-color: $color-grey--5;
     cursor: default;
   }
 }

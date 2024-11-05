@@ -12,9 +12,9 @@ import CartCount from '@/components/Cart/CartCount.vue'
 
 <style scoped lang="scss">
 .cart-popup {
-  background-color: #08170c;
+  background-color: $color-dark-10;
   padding: 0.75rem;
-  color: #fff;
+  color: $color-white;
   border-radius: 100%;
   z-index: $z-banner;
   position: relative;

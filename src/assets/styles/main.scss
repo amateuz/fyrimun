@@ -1,7 +1,7 @@
 @forward 'base';
 @forward 'variables';
-@forward 'mixins';
-@use 'mixins' as *;
+@forward 'mixins/index';
+@use 'mixins/index' as *;
 
 #app {
   margin: 0 auto;

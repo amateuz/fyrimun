@@ -88,7 +88,7 @@ onUnmounted(() => {
   font-size: 1rem;
   text-align: left;
 
-  color: #1a2d48;
+  color: $color-dark;
 
   &__header {
     display: flex;
@@ -103,24 +103,24 @@ onUnmounted(() => {
 
     position: relative;
 
-    background-color: #e8eaed;
+    background-color: $color-grey--10;
   }
 
   &__progress {
     height: 100%;
 
-    background-color: #5f6c7f;
+    background-color: $color-grey-10;
     transform-origin: left center;
 
     transition: transform v-bind('updateFrequencySuffix') linear;
   }
 
   &__time {
-    color: #eb403d;
+    color: $color-red--7;
   }
 
   &__text {
-    color: #d11d10;
+    color: $color-red;
   }
 }
 </style>

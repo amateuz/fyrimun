@@ -10,7 +10,7 @@
   width: 100%;
   height: 1px;
 
-  color: #d1d5da;
-  border-bottom: 1px solid #d1d5da;
+  color: $color-grey;
+  border-bottom: 1px solid $color-grey;
 }
 </style>

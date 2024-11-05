@@ -69,7 +69,7 @@ onBeforeMount(() => {
     font-size: 1.125rem;
     font-weight: 600;
 
-    color: #1a2d48;
+    color: $color-dark;
   }
 
   &__options {
@@ -81,26 +81,26 @@ onBeforeMount(() => {
 
   &__option {
     padding: 0.5rem 0.625rem;
-    border: 1px solid #d1d5da;
+    border: 1px solid $color-grey;
     border-radius: 0.25rem;
 
     font-size: 0.875rem;
 
-    background-color: #fff;
-    color: rgb(74 74 74);
+    background-color: $color-white;
+    color: $color-grey-15;
     cursor: pointer;
 
     transition: all 0.3s $ease-in-out;
 
     &:hover {
-      background-color: #e8eaed;
+      background-color: $color-grey--10;
     }
 
     &--selected {
-      background-color: rgb(251 197 7);
+      background-color: $color-gold;
 
       &:hover {
-        background-color: rgb(251 197 7);
+        background-color: $color-gold;
       }
     }
   }

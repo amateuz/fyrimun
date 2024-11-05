@@ -59,7 +59,7 @@ import Link from '@/components/Base/BaseLink.vue'
   gap: 2.5rem;
   padding: 2.25rem 1rem 3.5rem;
 
-  background-color: rgb(21 34 60);
+  background-color: $color-dark-3;
 
   &__top {
     display: flex;
@@ -78,7 +78,7 @@ import Link from '@/components/Base/BaseLink.vue'
     line-height: 1.375rem;
     text-align: left;
 
-    color: rgb(255 255 255);
+    color: $color-white;
   }
 
   &__link-section {
@@ -91,7 +91,7 @@ import Link from '@/components/Base/BaseLink.vue'
     font-size: 1.125rem;
     line-height: 1.625rem;
 
-    color: rgb(255 255 255);
+    color: $color-white;
   }
 
   &__link-container {
@@ -104,7 +104,7 @@ import Link from '@/components/Base/BaseLink.vue'
     font-size: 0.875rem;
     font-weight: 500;
 
-    color: #fff;
+    color: $color-white;
 
     &:hover {
       text-decoration: underline;

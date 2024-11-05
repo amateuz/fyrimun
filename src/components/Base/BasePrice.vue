@@ -37,12 +37,12 @@ const discount = computed(() =>
   font-size: 24px;
   font-weight: 400;
 
-  color: rgb(72 147 91);
+  color: $color-green;
 
   &__old {
     text-decoration: line-through;
 
-    color: rgb(8 23 12 / 49.8%);
+    color: $color-grey-transparent-10;
   }
 
   &__discount {
@@ -50,10 +50,10 @@ const discount = computed(() =>
     width: fit-content;
     border-radius: 6px;
 
-    font-size: 18px;
+    font-size: 1.125rem;
 
-    background-color: rgb(246 82 25);
-    color: rgb(255 255 255);
+    background-color: $color-red--5;
+    color: $color-white;
   }
 }
 </style>

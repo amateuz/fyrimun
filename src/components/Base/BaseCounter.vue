@@ -64,12 +64,12 @@ const increment = () => {
   align-items: center;
   width: 100%;
   height: 100%;
-  border: 1px solid #d1d5da;
+  border: 1px solid $color-grey;
   border-radius: 0.25rem;
 
   font-size: 1rem;
 
-  color: #1a2d48;
+  color: $color-dark;
 
   &__decrement,
   &__increment {
