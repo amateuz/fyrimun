@@ -22,7 +22,8 @@ router.beforeEach(() => {
   closeMenus()
 })
 router.afterEach(() => {
-  animation.enableAnimation()
+  // move to the end of event loop
+  setTimeout(animation.enableAnimation)
 })
 </script>
 

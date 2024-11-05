@@ -2,10 +2,10 @@
 import type { Properties } from 'csstype'
 import { computed, ref, watch } from 'vue'
 import { onClickOutside } from '@vueuse/core'
+import { useNoAnimation } from '@/composables/useNoAnimation'
 
 interface PanelSideProps {
   viewOverlayOnOpen?: boolean
-  isAnimated?: boolean
   position?: 'left' | 'right'
   width?: Properties['width']
   maxWidth?: Properties['maxWidth']
@@ -15,7 +15,6 @@ interface PanelSideProps {
 
 const props = withDefaults(defineProps<PanelSideProps>(), {
   viewOverlayOnOpen: true,
-  isAnimated: true,
   position: 'left',
   width: '18rem',
   maxWidth: 'unset',
@@ -25,6 +24,7 @@ const props = withDefaults(defineProps<PanelSideProps>(), {
 
 const isOpened = defineModel<boolean>('modelValue')
 const panelSideRef = ref(null)
+const animation = useNoAnimation()
 
 const panelSideComputedStyles = computed(() => ({
   transform: isOpened.value
@@ -33,14 +33,11 @@ const panelSideComputedStyles = computed(() => ({
       ? 'translateX(-100%)'
       : 'translateX(100%)',
   [props.position]: '0',
-  transitionDuration: props.transitionDuration,
-  transitionProperty: props.isAnimated ? 'transform' : 'none',
-  transitionTimingFunction: props.transitionEasing
+  transition: animation.isNoAnimation.value
+    ? 'none'
+    : `transform ${props.transitionDuration} ${props.transitionEasing}`,
+  width: props.width
 }))
-
-const overlayTransitionProp = computed(() => {
-  return props.isAnimated ? 'background-color' : 'none'
-})
 
 const closePanel = () => {
   isOpened.value = false
@@ -67,7 +64,7 @@ watch(
     <slot name="panel-side-top" :closePanel="closePanel" />
     <slot />
     <Teleport to="#app" v-if="props.viewOverlayOnOpen">
-      <Transition name="fadeIn">
+      <Transition :name="animation.isNoAnimation.value ? 'none' : 'fadeIn'">
         <div v-if="isOpened" class="panel-side__overlay" />
       </Transition>
     </Teleport>
@@ -78,7 +75,6 @@ watch(
 .panel-side {
   display: flex;
   flex-direction: column;
-  width: v-bind('props.width');
   overflow-y: auto;
 
   position: fixed;
@@ -107,8 +103,8 @@ watch(
 /* transition */
 .fadeIn-enter-active,
 .fadeIn-leave-active {
-  transition-property: v-bind('overlayTransitionProp');
-  transition-duration: 0.15s;
+  transition-property: background-color;
+  transition-duration: 5.15s;
   transition-timing-function: $ease-in-out;
 }
 

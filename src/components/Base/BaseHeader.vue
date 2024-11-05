@@ -5,10 +5,7 @@ import PanelMenu from '@/components/Menu/MenuSidePanel.vue'
 import PanelCart from '@/components/Cart/CartSidePanel.vue'
 import Button from '@/components/Base/BaseButton.vue'
 import CartCount from '@/components/Cart/CartCount.vue'
-import { useNoAnimation } from '@/composables/useNoAnimation'
 
-const { isNoAnimation } = useNoAnimation()
-console.log('animation', isNoAnimation)
 const isMenuOpened = defineModel('isMenuOpened', { default: false })
 const isCartOpened = defineModel('isCartOpened', { default: false })
 
@@ -50,16 +47,8 @@ const toggleCart = () => {
       <CartCount class="header-actions__cart-counter" />
     </div>
 
-    <PanelMenu
-      class="header-actions__menu"
-      v-model="isMenuOpened"
-      :is-animated="!isNoAnimation"
-    />
-    <PanelCart
-      class="header-actions__cart"
-      v-model="isCartOpened"
-      :is-animated="!isNoAnimation"
-    />
+    <PanelMenu class="header-actions__menu" v-model="isMenuOpened" />
+    <PanelCart class="header-actions__cart" v-model="isCartOpened" />
   </header>
 </template>
 

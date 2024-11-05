@@ -4,9 +4,6 @@ import IconClose from '@/assets/img/icons/close-cart.svg'
 import CartWidget from '@/components/Cart/CartWidget.vue'
 
 const isOpened = defineModel<boolean>('modelValue')
-const props = withDefaults(defineProps<{ isAnimated: boolean }>(), {
-  isAnimated: true
-})
 </script>
 
 <template>
@@ -17,7 +14,6 @@ const props = withDefaults(defineProps<{ isAnimated: boolean }>(), {
     max-width="500px"
     position="right"
     transition-duration="500ms"
-    :is-animated="props.isAnimated"
   >
     <template #panel-side-top="{ closePanel }">
       <div class="panel-side-cart__top">

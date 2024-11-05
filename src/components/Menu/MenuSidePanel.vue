@@ -4,18 +4,10 @@ import IconClose from '@/assets/img/icons/close-menu.svg'
 import MenuMain from '@/components/Menu/MenuMain.vue'
 
 const isOpened = defineModel<boolean>('modelValue')
-const props = withDefaults(defineProps<{ isAnimated: boolean }>(), {
-  isAnimated: true
-})
 </script>
 
 <template>
-  <SidePanel
-    v-model="isOpened"
-    :view-overlay-on-open="false"
-    position="left"
-    :is-animated="props.isAnimated"
-  >
+  <SidePanel v-model="isOpened" :view-overlay-on-open="false" position="left">
     <template #panel-side-top="{ closePanel }">
       <div class="panel-side-menu__top">
         <button

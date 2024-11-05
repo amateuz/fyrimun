@@ -22,7 +22,6 @@ export function getLocalImageLoaders(
   const localImageImports = import.meta.glob<{ default: string }>([
     '@/assets/img/**/*.{jpg,jpeg,png,webp,avif,gif}'
   ])
-  console.log(localImageImports)
   const localImageLoaders: Map<LocalImagePath, LocalImageLoader> = new Map<
     LocalImagePath,
     LocalImageLoader

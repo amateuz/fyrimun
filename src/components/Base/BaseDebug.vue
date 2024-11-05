@@ -9,7 +9,7 @@
 <style scoped lang="scss">
 .base-debug {
   height: auto;
-  max-height: 100px;
+  max-height: 64px;
 
   position: fixed;
   inset: 0;
