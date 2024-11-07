@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import ProductView from '@/views/ProductView.vue'
 import products from '@/constants/products.json'
+import CartView from '@/views/CartView.vue'
 
 const routes: RouteRecordRaw[] = []
 
@@ -12,6 +13,12 @@ products.forEach((product, index) => {
     component: ProductView,
     props: product
   })
+})
+
+routes.push({
+  path: '/cart',
+  name: 'cart',
+  component: CartView
 })
 
 const router = createRouter({

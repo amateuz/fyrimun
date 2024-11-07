@@ -104,7 +104,7 @@ watch(
 .fadeIn-enter-active,
 .fadeIn-leave-active {
   transition-property: background-color;
-  transition-duration: 5.15s;
+  transition-duration: 0.15s;
   transition-timing-function: $ease-in-out;
 }
 

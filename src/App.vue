@@ -1,13 +1,18 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
 import { useNoAnimation } from '@/composables/useNoAnimation'
 import AppHeader from '@/components/Layout/AppHeader.vue'
 import AppFooter from '@/components/Layout/AppFooter.vue'
 
+const router = useRouter()
+const isBannerVisible = computed(
+  () => router.currentRoute.value.name !== 'cart'
+)
 const isMenuOpened = ref<boolean>(false)
 const isCartOpened = ref<boolean>(false)
 const animation = useNoAnimation()
+
 const openCartMenu = () => {
   isCartOpened.value = true
 }
@@ -16,7 +21,6 @@ const closeMenus = () => {
   isCartOpened.value = false
 }
 
-const router = useRouter()
 router.beforeEach(() => {
   animation.disableAnimation()
   closeMenus()
@@ -29,6 +33,7 @@ router.afterEach(() => {
 
 <template>
   <AppHeader
+    :is-banner-visible="isBannerVisible"
     v-model:is-cart-opened="isCartOpened"
     v-model:is-menu-opened="isMenuOpened"
   />
@@ -37,10 +42,3 @@ router.afterEach(() => {
   </main>
   <AppFooter />
 </template>
-
-<style lang="scss" scoped>
-.main {
-  padding-block: 1.5rem;
-  padding-inline: 1rem;
-}
-</style>

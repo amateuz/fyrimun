@@ -18,9 +18,9 @@ const discount = computed(() =>
 <template>
   <div class="base-price">
     <div v-if="oldPrice" class="base-price__old">
-      {{ `${oldPrice}$` }}
+      {{ `$${oldPrice}` }}
     </div>
-    <div class="base-price__new">{{ `${price}$` }}</div>
+    <div class="base-price__new">{{ `$${price}` }}</div>
     <div v-if="oldPrice && showDiscount" class="base-price__discount">
       {{ `Save ${discount}%` }}
     </div>

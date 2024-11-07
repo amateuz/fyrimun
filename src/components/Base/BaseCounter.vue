@@ -57,8 +57,7 @@ const increment = () => {
 <style scoped lang="scss">
 .base-counter {
   $r: &;
-
-  @include font-family(Poppins);
+  
   display: flex;
   justify-content: space-between;
   align-items: center;

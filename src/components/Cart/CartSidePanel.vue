@@ -2,8 +2,22 @@
 import SidePanel from '@/components/Base/BaseSidePanel.vue'
 import IconClose from '@/assets/img/icons/close-cart.svg'
 import CartWidget from '@/components/Cart/CartWidget.vue'
+import { Link } from '@/types'
 
 const isOpened = defineModel<boolean>('modelValue')
+
+const buttons: [Link] = [
+  {
+    href: '/cart',
+    text: 'View My Cart',
+    type: 'basic'
+  },
+  {
+    href: '/cart',
+    text: 'Process To Secure Checkout',
+    type: 'accent'
+  }
+]
 </script>
 
 <template>
@@ -28,7 +42,7 @@ const isOpened = defineModel<boolean>('modelValue')
       </div>
     </template>
     <div class="panel-side-cart__content">
-      <CartWidget />
+      <CartWidget :buttons="buttons" type="embed" />
     </div>
   </SidePanel>
 </template>
@@ -57,6 +71,11 @@ const isOpened = defineModel<boolean>('modelValue')
 
     color: $color-dark;
     border-bottom: 1px solid $color-grey--15;
+    background-color: $color-white;
+    position: sticky;
+    left: 0;
+    top: 0;
+    z-index: $z-nav;
   }
 
   &__close-button {
