@@ -243,6 +243,7 @@ const isLoading = ref(Array(allImagesPaths.length).fill(true))
   &--thumbs {
     margin-top: 12px;
     margin-left: -12px;
+    height: 96px;
   }
 
   &__next {
