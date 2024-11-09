@@ -229,7 +229,7 @@ onUnmounted(() => {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-    padding: 1.5rem 0;
+    padding: 0 0 1.5rem 0;
   }
 
   &__product-info-header {
