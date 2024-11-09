@@ -41,6 +41,7 @@ const props = defineProps<Rating>()
     display: flex;
     justify-content: center;
     align-items: baseline;
+    gap: 0.25rem;
   }
 
   &__star {
