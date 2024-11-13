@@ -113,7 +113,6 @@ const removeItem = () => {
 .cart-item {
   $r: &;
   display: flex;
-  flex: 1 1 auto;
   justify-content: space-between;
   align-items: flex-start;
   gap: 0.75rem;

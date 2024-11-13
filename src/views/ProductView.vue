@@ -18,11 +18,10 @@ import SingleSelectGroup from '@/components/Base/BaseGroupSelect.vue'
 import QuantitySelector from '@/components/Base/BaseCounter.vue'
 import Button from '@/components/Base/BaseButton.vue'
 import SvgIcon from '@/components/Base/BaseSvgIcon.vue'
-import HtmlRendered from '@/components/Base/BaseRawHtmlRendered.vue'
+import HtmlRenderer from '@/components/Base/BaseRawHtmlRenderer.vue'
 import ProductReview from '@/components/Base/BaseReview.vue'
 import ProductQuickAdd from '@/components/Base/BaseQuickWidget.vue'
 import CartPopup from '@/components/Cart/CartPopup.vue'
-import { useSideMenusStore } from '@/stores/sideMenus'
 import Link from '@/components/Base/BaseLink.vue'
 
 const product = defineProps<Product>()
@@ -195,7 +194,7 @@ onUnmounted(() => {
         Description
       </h3>
       <div class="product-view__wysiwyg-content">
-        <HtmlRendered
+        <HtmlRenderer
           v-if="product.description"
           :htmlContent="product.description"
         />
