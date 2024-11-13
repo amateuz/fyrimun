@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import BaseProgress from '@/components/Base/BaseProgress.vue'
 
 interface TimerProps {
   heading?: string
@@ -83,15 +84,11 @@ onUnmounted(() => {
 
 <template>
   <div class="base-timer">
-    <h5 v-if="props.heading" class="base-timer__heading">
-      {{ props.heading }}
-    </h5>
-    <div v-if="props.showProgressBar" class="base-timer__progress-bar">
-      <div
-        class="base-timer__progress"
-        :style="{ transform: `scaleX(${progressPercentage / 100})` }"
-      ></div>
-    </div>
+    <BaseProgress
+      v-if="showProgressBar"
+      v-model="progressPercentage"
+      :update-frequency="updateFrequencyWithSuffix"
+    />
     <div class="base-timer__time">{{ getTimerText }}</div>
   </div>
 </template>
@@ -109,30 +106,6 @@ onUnmounted(() => {
   text-align: left;
 
   color: $color-dark;
-
-  &__heading {
-    display: flex;
-    justify-content: flex-start;
-    gap: 0.5rem;
-  }
-
-  &__progress-bar {
-    width: 100%;
-    height: 10px;
-    overflow: hidden;
-
-    position: relative;
-    background-color: $color-grey--10;
-  }
-
-  &__progress {
-    height: 100%;
-
-    background-color: $color-grey-10;
-    transform-origin: left center;
-
-    transition: transform v-bind('updateFrequencyWithSuffix') linear;
-  }
 
   &__time {
     color: $color-red--7;

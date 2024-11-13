@@ -115,10 +115,14 @@ onUnmounted(() => {
         </ProductRating>
       </div>
       <div class="product-view__product-info-header">
-        <h3 class="product-view__heading">
+        <h3 class="product-view__heading product-view__heading--h3">
           {{ product.name }}
         </h3>
-        <ProductPrice :oldPrice="product.oldPrice" :price="product.price" />
+        <ProductPrice
+          :oldPrice="product.oldPrice"
+          :price="product.price"
+          show-discount
+        />
       </div>
       <BlockSeparator class="product-view__heading-separator" />
       <div class="product-view__deal">
@@ -129,8 +133,11 @@ onUnmounted(() => {
         />
         <ProductViewersCount />
         <div class="product-view__timer-container">
+          <h5 class="product-view__heading product-view__heading--h5">
+            {{ productTimerHeading }}
+          </h5>
           <ProductTimer
-            :heading="productTimerHeading"
+            class="product-view__timer"
             :show-progress-bar="true"
             :time-is-up-text="productTimerEndText"
           />
@@ -182,7 +189,9 @@ onUnmounted(() => {
       </div>
     </section>
     <section class="product-view__description">
-      <h3 class="product-view__heading product-view__heading--section">
+      <h3
+        class="product-view__heading product-view__heading--h3 product-view__heading--section"
+      >
         Description
       </h3>
       <div class="product-view__wysiwyg-content">
@@ -193,7 +202,9 @@ onUnmounted(() => {
       </div>
     </section>
     <section class="product-view__reviews-section">
-      <h3 class="product-view__heading product-view__heading--section">
+      <h3
+        class="product-view__heading product-view__heading--h3 product-view__heading--section"
+      >
         Review
       </h3>
       <div class="product-view__reviews">
@@ -248,14 +259,22 @@ onUnmounted(() => {
   &__heading {
     @include font-family(Poppins);
     display: block;
-
-    font-size: 32px;
-    font-weight: 600;
-    line-height: 40px;
+    overflow-wrap: break-word;
     text-align: left;
 
-    color: $color-dark-20;
-    overflow-wrap: break-word;
+    &--h3 {
+      font-size: 2rem;
+      font-weight: 600;
+      line-height: 2.5rem;
+      color: $color-dark-20;
+    }
+
+    &--h5 {
+      font-size: 1rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+      color: $color-dark;
+    }
 
     &--section {
       padding-top: 0.875rem;
@@ -283,6 +302,13 @@ onUnmounted(() => {
 
   &__timer-container {
     max-width: 400px;
+  }
+
+  &__timer {
+    @include font-family(Poppins);
+    font-size: 1rem;
+    font-weight: 400;
+    color: $color-dark;
   }
 
   &__filters {
