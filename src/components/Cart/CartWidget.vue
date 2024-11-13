@@ -7,6 +7,7 @@ import Link from '@/components/Base/BaseLink.vue'
 import BaseSeparator from '@/components/Base/BaseSeparator.vue'
 import limitedStock from '@/assets/img/limited-stock.png'
 import BaseTimer from '@/components/Base/BaseTimer.vue'
+import { getFormattedPrice } from '@/utils/getFormattedPrice'
 
 interface CartWidgetProps {
   heading?: string
@@ -22,7 +23,7 @@ const props = withDefaults(defineProps<CartWidgetProps>(), {
 
 const cartStore = useCartStore()
 const getFormattedTotalPrice = computed(() => {
-  return parseFloat(cartStore.totalPrice.toFixed(2)).toString()
+  return getFormattedPrice(cartStore.totalPrice)
 })
 
 const isCart = computed(() => {

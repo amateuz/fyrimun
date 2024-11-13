@@ -7,6 +7,7 @@ import SvgIcon from '@/components/Base/BaseSvgIcon.vue'
 import Counter from '@/components/Base/BaseCounter.vue'
 import Price from '@/components/Base/BasePrice.vue'
 import CartCount from '@/components/Cart/CartCount.vue'
+import { getFormattedPrice } from '@/utils/getFormattedPrice'
 
 interface CartItemProps {
   isInteractive: boolean
@@ -92,8 +93,10 @@ const removeItem = () => {
             class="cart-item__counter"
           />
           <Price
-            :old-price="cartProduct.oldPrice"
-            :price="cartProduct.price"
+            :old-price="
+              getFormattedPrice(cartStore.totalProductOldPrice(cartProduct))
+            "
+            :price="getFormattedPrice(cartStore.totalProductPrice(cartProduct))"
             :show-discount="false"
             :show-old-price="props.isInteractive"
             class="cart-item__price"

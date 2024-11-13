@@ -13,7 +13,7 @@ const buttons: Link[] = [
     type: 'basic'
   },
   {
-    href: '/cart',
+    href: '/checkout',
     text: 'Process To Secure Checkout',
     type: 'accent'
   }

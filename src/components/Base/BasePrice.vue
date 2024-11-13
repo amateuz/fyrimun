@@ -2,19 +2,25 @@
 import { computed } from 'vue'
 
 interface PriceProductProps {
-  oldPrice?: number
-  price: number
+  oldPrice?: number | string
+  price: number | string
   showDiscount?: boolean
   showOldPrice?: boolean
 }
 
 const props = defineProps<PriceProductProps>()
 
-const discount = computed(() =>
-  props.oldPrice
-    ? Math.round((props.oldPrice - props.price) * (100 / props.oldPrice))
+const discount = computed(() => {
+  const oldPrice =
+    typeof props.oldPrice === 'string'
+      ? parseFloat(props.oldPrice)
+      : props.oldPrice
+  const price =
+    typeof props.price === 'string' ? parseFloat(props.price) : props.price
+  return oldPrice && price
+    ? Math.round((oldPrice - price) * (100 / oldPrice))
     : null
-)
+})
 </script>
 <template>
   <div class="base-price">

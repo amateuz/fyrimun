@@ -22,6 +22,20 @@ export const useCartStore = defineStore('cart', {
     totalProductQuantity: (state) => (cartProduct: CartProduct) => {
       const foundCartProduct = findCartProduct(state.cartProducts, cartProduct)
       return foundCartProduct ? foundCartProduct.quantity : 0
+    },
+
+    totalProductOldPrice: (state) => (cartProduct: CartProduct) => {
+      const foundCartProduct = findCartProduct(state.cartProducts, cartProduct)
+      return foundCartProduct
+        ? foundCartProduct.quantity * (foundCartProduct.oldPrice || 0)
+        : 0
+    },
+
+    totalProductPrice: (state) => (cartProduct: CartProduct) => {
+      const foundCartProduct = findCartProduct(state.cartProducts, cartProduct)
+      return foundCartProduct
+        ? foundCartProduct.quantity * foundCartProduct.price
+        : 0
     }
   },
 
@@ -41,11 +55,6 @@ export const useCartStore = defineStore('cart', {
       this.cartProducts = this.cartProducts.filter(
         (cartProduct) => !equals(cartProduct, cartProductToRemove)
       )
-    },
-    updateQuantity(cartProduct: CartProduct, quantity: number) {
-      const foundCartProduct = findCartProduct(this.cartProducts, cartProduct)
-      if (!foundCartProduct) return
-      foundCartProduct.quantity = quantity
     }
   },
 
