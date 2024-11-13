@@ -117,7 +117,11 @@ const shippingCost = 0
         <h5 class="cart-promo__heading">Limited Stock!</h5>
         <div class="cart-promo__text">
           No worries, we have reserved your order. Your order is reserved for
-          <BaseTimer class="cart-promo__timer" time-format="mm:ss" />
+          <BaseTimer
+            class="cart-promo__timer"
+            time-format="mm:ss"
+            :use-store="false"
+          />
           minutes
         </div>
       </div>

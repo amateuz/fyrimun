@@ -1,25 +1,33 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import BaseProgress from '@/components/Base/BaseProgress.vue'
+import { useTimerStore } from '@/stores/timer'
 
 interface TimerProps {
   heading?: string
-  timeLeft?: number
+  time?: number
   updateFrequency?: number
   timeIsUpText?: string
   showProgressBar?: boolean
   timeFormat?: string
+  useStore?: boolean
 }
 
 const props = withDefaults(defineProps<TimerProps>(), {
-  timeLeft: 10 * 60,
+  time: 10 * 60 * 1000,
   updateFrequency: 20,
-  timeFormat: 'mm:ss.SSS'
+  timeFormat: 'mm:ss.SSS',
+  useStore: true
 })
+
+const timerStore = useTimerStore()
 
 // used in <styles> v-bind
 const updateFrequencyWithSuffix = `${props.updateFrequency}ms`
-const initialTimeMs = props.timeLeft * 1000
+const originalInitialTime = props.time
+const initialTimeMs = props.useStore
+  ? (timerStore.timeLeft ?? props.time)
+  : props.time
 const remainingTimeMs = ref(initialTimeMs)
 
 let targetEndTime: number
@@ -56,7 +64,7 @@ const getTimerText = computed(() =>
 )
 
 const progressPercentage = computed(() => {
-  return (remainingTimeMs.value / initialTimeMs) * 100
+  return (remainingTimeMs.value / originalInitialTime) * 100
 })
 
 const updateTimer = () => {
@@ -64,6 +72,7 @@ const updateTimer = () => {
   const timeDifferenceMs = targetEndTime - currentTime
 
   remainingTimeMs.value = Math.max(timeDifferenceMs, 0)
+  if (props.useStore) timerStore.update(remainingTimeMs.value)
 
   if (remainingTimeMs.value > 0) {
     timeoutId = setTimeout(updateTimer, props.updateFrequency)
