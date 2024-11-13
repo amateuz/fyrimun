@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { type Link as LinkType } from '@/types'
 import Button from '@/components/Base/BaseButton.vue'
 import Link from '@/components/Base/BaseLink.vue'
+import { footerData } from '@/constants/footerData'
 </script>
 
 <template>
@@ -13,38 +15,37 @@ import Link from '@/components/Base/BaseLink.vue'
           src="@/assets/img/logo-compressed.webp"
         />
       </Link>
-      <div class="app-footer__email">support@walnese.com</div>
+      <div class="app-footer__email">{{ footerData.contactEmail }}</div>
     </div>
-    <div class="app-footer__link-section">
-      <div class="app-footer__heading">Support</div>
+
+    <div
+      v-for="(section, index) in footerData.sections"
+      :key="index"
+      class="app-footer__link-section"
+    >
+      <div class="app-footer__heading">{{ section.heading }}</div>
       <div class="app-footer__link-container">
-        <Link class="app-footer__link" href="/order-tracking">
-          Order Tracking
-        </Link>
-        <Button
-          class="app-footer__link app-footer__link--button"
-          type="accent"
-          tag="a"
-          href="/contact-us"
-          >Contact Us
-        </Button>
-      </div>
-    </div>
-    <div class="app-footer__link-section">
-      <div class="app-footer__heading">Policy</div>
-      <div class="app-footer__link-container">
-        <Link class="app-footer__link" href="/refund-policy">
-          Return & Refund Policy
-        </Link>
-        <Link class="app-footer__link" href="/privacy-policy">
-          Privacy Policy
-        </Link>
-        <Link class="app-footer__link" href="/shipping-policy">
-          Shipping Policy
-        </Link>
-        <Link class="app-footer__link" href="/term-of-service">
-          Term Of Service
-        </Link>
+        <template v-for="(link, linkIndex) in section.links">
+          <Link
+            v-if="!link.type"
+            :key="`footer-link-${linkIndex}`"
+            :href="link.href"
+            class="app-footer__link"
+          >
+            {{ link.text }}
+          </Link>
+
+          <Button
+            v-else
+            :href="link.href"
+            :key="`footer-button-${linkIndex}`"
+            :type="(link as LinkType).type"
+            tag="a"
+            class="app-footer__link app-footer__link--button"
+          >
+            {{ link.text }}
+          </Button>
+        </template>
       </div>
     </div>
   </footer>

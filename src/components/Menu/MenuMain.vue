@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import menuData from '@/constants/mainMenu'
 import Link from '@/components/Base/BaseLink.vue'
+import { useSideMenusStore } from '@/stores/sideMenus'
+
+const sideMenus = useSideMenusStore()
 </script>
 
 <template>
@@ -11,7 +14,11 @@ import Link from '@/components/Base/BaseLink.vue'
         :key="index"
         class="menu-main__item"
       >
-        <Link :href="menuItem.href" class="menu-main__link">
+        <Link
+          @click="sideMenus.toggleMenu()"
+          :href="menuItem.href"
+          class="menu-main__link"
+        >
           {{ menuItem.text }}
         </Link>
       </li>
