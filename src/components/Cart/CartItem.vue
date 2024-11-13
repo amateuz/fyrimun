@@ -19,6 +19,11 @@ const props = withDefaults(defineProps<CartItemProps>(), {
 })
 const cartProduct = defineModel<CartProduct>('modelValue', { default: {} })
 const cartStore = useCartStore()
+const oldPrice = computed(() =>
+  props.isInteractive
+    ? getFormattedPrice(cartStore.totalProductOldPrice(cartProduct.value))
+    : undefined
+)
 
 const productImageLoader = computed(() =>
   getLocalImageLoaders([cartProduct.value.image])
@@ -93,12 +98,9 @@ const removeItem = () => {
             class="cart-item__counter"
           />
           <Price
-            :old-price="
-              getFormattedPrice(cartStore.totalProductOldPrice(cartProduct))
-            "
+            :old-price="oldPrice"
             :price="getFormattedPrice(cartStore.totalProductPrice(cartProduct))"
             :show-discount="false"
-            :show-old-price="props.isInteractive"
             class="cart-item__price"
           />
         </div>

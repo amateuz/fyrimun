@@ -5,7 +5,6 @@ interface PriceProductProps {
   oldPrice?: number | string
   price: number | string
   showDiscount?: boolean
-  showOldPrice?: boolean
 }
 
 const props = defineProps<PriceProductProps>()
@@ -24,7 +23,7 @@ const discount = computed(() => {
 </script>
 <template>
   <div class="base-price">
-    <div v-if="oldPrice && showOldPrice" class="base-price__old">
+    <div v-if="oldPrice" class="base-price__old">
       {{ `$${oldPrice}` }}
     </div>
     <div class="base-price__new">{{ `$${price}` }}</div>
