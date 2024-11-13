@@ -2,7 +2,7 @@
 import type { Properties } from 'csstype'
 import { computed, ref, watch } from 'vue'
 import { onClickOutside } from '@vueuse/core'
-import { useNoAnimation } from '@/composables/useNoAnimation'
+import { useAnimationStore } from '@/stores/animation'
 
 interface PanelSideProps {
   viewOverlayOnOpen?: boolean
@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<PanelSideProps>(), {
 
 const isOpened = defineModel<boolean>('modelValue')
 const panelSideRef = ref(null)
-const animation = useNoAnimation()
+const animation = useAnimationStore()
 
 const panelSideComputedStyles = computed(() => ({
   transform: isOpened.value
@@ -33,9 +33,9 @@ const panelSideComputedStyles = computed(() => ({
       ? 'translateX(-100%)'
       : 'translateX(100%)',
   [props.position]: '0',
-  transition: animation.isNoAnimation.value
-    ? 'none'
-    : `transform ${props.transitionDuration} ${props.transitionEasing}`,
+  transition: animation.isEnabled
+    ? `transform ${props.transitionDuration} ${props.transitionEasing}`
+    : 'none',
   width: props.width
 }))
 
@@ -64,7 +64,7 @@ watch(
     <slot name="panel-side-top" :closePanel="closePanel" />
     <slot />
     <Teleport to="#app" v-if="props.viewOverlayOnOpen">
-      <Transition :name="animation.isNoAnimation.value ? 'none' : 'fadeIn'">
+      <Transition :name="animation.isEnabled ? 'fadeIn' : 'none'">
         <div v-if="isOpened" class="panel-side__overlay" />
       </Transition>
     </Teleport>

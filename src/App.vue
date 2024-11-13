@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
-import { useNoAnimation } from '@/composables/useNoAnimation'
 import AppHeader from '@/components/Layout/AppHeader.vue'
 import AppFooter from '@/components/Layout/AppFooter.vue'
 import { useSideMenusStore } from '@/stores/sideMenus'
+import { useAnimationStore } from '@/stores/animation'
 
 const router = useRouter()
 const sideMenus = useSideMenusStore()
@@ -15,16 +15,16 @@ const isMenusVisible = computed(
   () => router.currentRoute.value.name !== 'checkout'
 )
 
-const animation = useNoAnimation()
+const animation = useAnimationStore()
 
 router.beforeEach(() => {
-  animation.disableAnimation()
+  animation.disable()
   sideMenus.closeCart()
   sideMenus.closeMenu()
 })
 router.afterEach(() => {
   // move to the end of event loop
-  setTimeout(animation.enableAnimation)
+  setTimeout(animation.enable)
 })
 </script>
 
