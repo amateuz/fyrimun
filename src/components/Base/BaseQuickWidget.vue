@@ -138,7 +138,7 @@ watchEffect(() => {
   &__button {
     gap: 0.5rem;
 
-    &[disabled] {
+    &[disabled]:not([disabled='false']) {
       cursor: not-allowed;
       opacity: 0.5;
     }

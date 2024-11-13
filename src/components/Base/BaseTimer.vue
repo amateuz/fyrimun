@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<TimerProps>(), {
 })
 
 // used in <styles> v-bind
-const updateFrequencySuffix = `${props.updateFrequency}ms`
+const updateFrequencyWithSuffix = `${props.updateFrequency}ms`
 const initialTimeMs = props.timeLeft * 1000
 const remainingTimeMs = ref(initialTimeMs)
 
@@ -110,7 +110,7 @@ onUnmounted(() => {
 
   color: $color-dark;
 
-  &__header {
+  &__heading {
     display: flex;
     justify-content: flex-start;
     gap: 0.5rem;
@@ -131,7 +131,7 @@ onUnmounted(() => {
     background-color: $color-grey-10;
     transform-origin: left center;
 
-    transition: transform v-bind('updateFrequencySuffix') linear;
+    transition: transform v-bind('updateFrequencyWithSuffix') linear;
   }
 
   &__time {

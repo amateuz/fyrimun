@@ -5,24 +5,24 @@ import PanelMenu from '@/components/Menu/MenuSidePanel.vue'
 import PanelCart from '@/components/Cart/CartSidePanel.vue'
 import Button from '@/components/Base/BaseButton.vue'
 import CartCount from '@/components/Cart/CartCount.vue'
+import { useSideMenusStore } from '@/stores/sideMenus'
+import { computed } from 'vue'
 
 interface BaseHeaderProps {
   isMenusVisible?: boolean
 }
 
+const sideMenus = useSideMenusStore()
+
 const props = withDefaults(defineProps<BaseHeaderProps>(), {
   isMenusVisible: true
 })
-const isMenuOpened = defineModel('isMenuOpened', { default: false })
-const isCartOpened = defineModel('isCartOpened', { default: false })
-
-const toggleMenu = () => {
-  isMenuOpened.value = !isMenuOpened.value
-}
-
-const toggleCart = () => {
-  isCartOpened.value = !isCartOpened.value
-}
+const isMenuOpened = computed(() => {
+  return sideMenus.isMenuOpened
+})
+const isCartOpened = computed(() => {
+  return sideMenus.isCartOpened
+})
 </script>
 
 <template>
@@ -40,7 +40,7 @@ const toggleCart = () => {
         :aria-pressed="isMenuOpened"
         aria-label="Toggle Menu"
         class="header-actions__button"
-        @click="toggleMenu"
+        @click="sideMenus.toggleMenu"
       >
         <IconMenu :isOpen="isMenuOpened" />
       </Button>
@@ -58,7 +58,7 @@ const toggleCart = () => {
         :aria-pressed="isCartOpened"
         aria-label="Toggle Cart"
         class="header-actions__button"
-        @click="toggleCart"
+        @click="sideMenus.toggleCart"
       >
         <IconCart />
       </Button>

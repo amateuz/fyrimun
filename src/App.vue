@@ -1,32 +1,26 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
 import { useNoAnimation } from '@/composables/useNoAnimation'
 import AppHeader from '@/components/Layout/AppHeader.vue'
 import AppFooter from '@/components/Layout/AppFooter.vue'
+import { useSideMenusStore } from '@/stores/sideMenus'
 
 const router = useRouter()
+const sideMenus = useSideMenusStore()
 const isBannerVisible = computed(
   () => router.currentRoute.value.name === 'product'
 )
 const isMenusVisible = computed(
   () => router.currentRoute.value.name !== 'checkout'
 )
-const isMenuOpened = ref<boolean>(false)
-const isCartOpened = ref<boolean>(false)
-const animation = useNoAnimation()
 
-const openCartMenu = () => {
-  isCartOpened.value = true
-}
-const closeMenus = () => {
-  isMenuOpened.value = false
-  isCartOpened.value = false
-}
+const animation = useNoAnimation()
 
 router.beforeEach(() => {
   animation.disableAnimation()
-  closeMenus()
+  sideMenus.closeCart()
+  sideMenus.closeMenu()
 })
 router.afterEach(() => {
   // move to the end of event loop
@@ -38,11 +32,9 @@ router.afterEach(() => {
   <AppHeader
     :is-menus-visible="isMenusVisible"
     :is-banner-visible="isBannerVisible"
-    v-model:is-cart-opened="isCartOpened"
-    v-model:is-menu-opened="isMenuOpened"
   />
   <main class="main">
-    <RouterView @openCart="openCartMenu" />
+    <RouterView />
   </main>
   <AppFooter />
 </template>

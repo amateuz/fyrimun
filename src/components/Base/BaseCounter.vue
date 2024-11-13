@@ -57,7 +57,7 @@ const increment = () => {
 <style scoped lang="scss">
 .base-counter {
   $r: &;
-  
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -74,7 +74,7 @@ const increment = () => {
   &__increment {
     padding: 0 0.5rem;
 
-    &[disabled] {
+    &[disabled]:not([disabled='false']) {
       @include set-non-interactive;
       opacity: 0.5;
     }

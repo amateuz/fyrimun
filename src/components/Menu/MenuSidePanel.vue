@@ -2,12 +2,17 @@
 import SidePanel from '@/components/Base/BaseSidePanel.vue'
 import IconClose from '@/assets/img/icons/close-menu.svg'
 import MenuMain from '@/components/Menu/MenuMain.vue'
+import { useSideMenusStore } from '@/stores/sideMenus'
 
-const isOpened = defineModel<boolean>('modelValue')
+const sideMenus = useSideMenusStore()
 </script>
 
 <template>
-  <SidePanel v-model="isOpened" :view-overlay-on-open="false" position="left">
+  <SidePanel
+    v-model="sideMenus.isMenuOpened"
+    :view-overlay-on-open="false"
+    position="left"
+  >
     <template #panel-side-top="{ closePanel }">
       <div class="panel-side-menu__top">
         <button

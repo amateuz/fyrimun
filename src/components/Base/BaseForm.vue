@@ -579,7 +579,7 @@ onBeforeMount(() => {
 
     option {
       &,
-      &[disabled] {
+      &[disabled]:not([disabled='false']) {
         color: $color-grey-17;
       }
     }

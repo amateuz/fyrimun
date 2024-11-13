@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { Product, Option, CartProduct } from '@/types'
 import type { SwiperClass } from 'swiper/swiper-react'
 import { computed, onUnmounted, ref, watch } from 'vue'
@@ -22,9 +22,10 @@ import HtmlRendered from '@/components/Base/BaseRawHtmlRendered.vue'
 import ProductReview from '@/components/Base/BaseReview.vue'
 import ProductQuickAdd from '@/components/Base/BaseQuickWidget.vue'
 import CartPopup from '@/components/Cart/CartPopup.vue'
+import { useSideMenusStore } from '@/stores/sideMenus'
+import Link from '@/components/Base/BaseLink.vue'
 
 const product = defineProps<Product>()
-const emit = defineEmits<{ openCart: [void] }>()
 const cartStore = useCartStore()
 const cartProduct = ref<CartProduct>({
   name: product.name,
@@ -35,6 +36,7 @@ const cartProduct = ref<CartProduct>({
   size: product.sizes[0],
   quantity: 1
 } as CartProduct)
+const sideMenus = useSideMenusStore()
 
 const carousel = ref<{ swiper: SwiperClass } | null>(null)
 const addToCartButtonRef = ref<HTMLElement | null>(null)
@@ -61,10 +63,7 @@ const adjustCarouselToSelectedColor = async (color: Option | null) => {
 const addToCartClick = () => {
   // add new object to a cart
   cartStore.addToCart(Object.assign({}, cartProduct.value))
-  requestCartOpen()
-}
-const requestCartOpen = () => {
-  emit('openCart')
+  sideMenus.openCart()
 }
 
 const isControlsDisabled = computed(() => {
@@ -102,9 +101,9 @@ onUnmounted(() => {
 <template>
   <section class="product-view">
     <ProductCarousel
+      ref="carousel"
       :image-paths="product.images"
       class="product-view__carousel"
-      ref="carousel"
     />
     <section class="product-view__product-info">
       <div class="product-view__rating">
@@ -158,24 +157,26 @@ onUnmounted(() => {
           </div>
           <Button
             ref="addToCartButtonRef"
+            :disabled="isControlsDisabled"
             class="product-view__button product-view__button--trolley"
             @click="addToCartClick"
-            :disabled="isControlsDisabled"
           >
             <SvgIcon name="trolley" />
             ADD TO CART
           </Button>
-          <Button
-            class="product-view__button product-view__button--wallet"
+          <Link
             :disabled="isControlsDisabled"
+            class="product-view__button product-view__button--wallet"
+            to="/checkout"
+            type="accent"
           >
             <SvgIcon name="wallet" />
             BUY NOW
-          </Button>
+          </Link>
         </div>
         <img
-          class="product-view__safe-checkout"
           alt="Safe Checkout"
+          class="product-view__safe-checkout"
           src="@/assets/img/safe-checkout.webp"
         />
       </div>
@@ -209,22 +210,22 @@ onUnmounted(() => {
       <CartPopup
         v-if="cartStore.totalQuantity > 0"
         class="product-view__cart-popup"
-        @click="requestCartOpen"
+        @click="sideMenus.openCart"
       />
     </Transition>
     <Teleport to="#app">
       <ProductQuickAdd
         v-if="isQuickAddVisible"
+        v-model="cartProduct"
         class="product-view__quick-add"
         v-bind="product"
-        v-model="cartProduct"
         @addButtonClick="addToCartClick"
       />
     </Teleport>
   </section>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .product-view {
   display: flex;
   flex-direction: column;
@@ -305,15 +306,19 @@ onUnmounted(() => {
   }
 
   &__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 0.5rem;
     padding: 12px;
     height: 50px;
     border-radius: 0.25em;
+    width: 100%;
 
     color: white;
     fill: white;
 
-    &[disabled] {
+    &[disabled]:not([disabled='false']) {
       cursor: not-allowed;
       opacity: 0.5;
     }

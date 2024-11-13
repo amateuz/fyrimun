@@ -269,7 +269,7 @@ const isLoading = ref(Array(allImagesPaths.length).fill(true))
       cursor: pointer;
     }
 
-    &[disabled] {
+    &[disabled]:not([disabled='false']) {
       @include set-non-interactive;
       opacity: 0.35;
     }

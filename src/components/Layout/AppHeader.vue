@@ -7,9 +7,6 @@ interface AppHeaderProps {
   isMenusVisible?: boolean
 }
 
-const isMenuOpened = defineModel<boolean>('isMenuOpened', { default: false })
-const isCartOpened = defineModel<boolean>('isCartOpened', { default: false })
-
 const props = withDefaults(defineProps<AppHeaderProps>(), {
   isBannerVisible: true,
   isMenusVisible: true
@@ -22,10 +19,6 @@ const props = withDefaults(defineProps<AppHeaderProps>(), {
       v-if="props.isBannerVisible"
       text="Today - Free shipping for all orders over 133.9 $"
     />
-    <HeaderActions
-      :is-menus-visible="isMenusVisible"
-      v-model:is-cart-opened="isCartOpened"
-      v-model:is-menu-opened="isMenuOpened"
-    />
+    <HeaderActions :is-menus-visible="isMenusVisible" />
   </header>
 </template>

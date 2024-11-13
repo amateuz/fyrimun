@@ -20,6 +20,7 @@ interface CartWidgetProps {
 const props = withDefaults(defineProps<CartWidgetProps>(), {
   type: 'cart'
 })
+const emit = defineEmits<{ click: [string] }>()
 
 const cartStore = useCartStore()
 const getFormattedTotalPrice = computed(() => {
@@ -98,6 +99,7 @@ const shippingCost = 0
           <Link
             :class="`cart-total__link cart-total__link--${button.type}`"
             :to="button.href"
+            @click="emit('click', button.href)"
           >
             {{ button.text }}
           </Link>

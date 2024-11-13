@@ -3,8 +3,11 @@ import SidePanel from '@/components/Base/BaseSidePanel.vue'
 import IconClose from '@/assets/img/icons/close-cart.svg'
 import CartWidget from '@/components/Cart/CartWidget.vue'
 import { type Link } from '@/types'
+import { useSideMenusStore } from '@/stores/sideMenus'
+import { useRouter } from 'vue-router'
 
-const isOpened = defineModel<boolean>('modelValue')
+const router = useRouter()
+const sideMenus = useSideMenusStore()
 
 const buttons: Link[] = [
   {
@@ -18,11 +21,15 @@ const buttons: Link[] = [
     type: 'accent'
   }
 ]
+
+const closeCartPanelWhenSameRoute = (href: string) => {
+  sideMenus.isCartOpened = router.currentRoute.value.path !== href
+}
 </script>
 
 <template>
   <SidePanel
-    v-model="isOpened"
+    v-model="sideMenus.isCartOpened"
     class="panel-side-cart"
     width="100%"
     max-width="500px"
@@ -42,7 +49,11 @@ const buttons: Link[] = [
       </div>
     </template>
     <div class="panel-side-cart__content">
-      <CartWidget :buttons="buttons" type="embed" />
+      <CartWidget
+        :buttons="buttons"
+        @click="closeCartPanelWhenSameRoute"
+        type="embed"
+      />
     </div>
   </SidePanel>
 </template>
