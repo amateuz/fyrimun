@@ -42,7 +42,14 @@ const panelSideComputedStyles = computed(() => ({
 const closePanel = () => {
   isOpened.value = false
 }
-onClickOutside(panelSideRef, closePanel)
+onClickOutside(panelSideRef, (event) => {
+  const toggleButtons = Array.from(
+    document.querySelectorAll('[aria-label="Toggle Menu"]')
+  )
+  if (toggleButtons.some((toggleButton) => event.target === toggleButton))
+    return
+  closePanel()
+})
 
 watch(
   () => props.showOverlayOnOpen && isOpened.value,

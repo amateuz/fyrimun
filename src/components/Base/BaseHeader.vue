@@ -6,7 +6,6 @@ import PanelCart from '@/components/Cart/CartSidePanel.vue'
 import Button from '@/components/Base/BaseButton.vue'
 import CartCount from '@/components/Cart/CartCount.vue'
 import { useSideMenusStore } from '@/stores/sideMenus'
-import { computed } from 'vue'
 
 interface BaseHeaderProps {
   isMenusVisible?: boolean
@@ -17,12 +16,6 @@ const sideMenus = useSideMenusStore()
 const props = withDefaults(defineProps<BaseHeaderProps>(), {
   isMenusVisible: true
 })
-const isMenuOpened = computed(() => {
-  return sideMenus.isMenuOpened
-})
-const isCartOpened = computed(() => {
-  return sideMenus.isCartOpened
-})
 </script>
 
 <template>
@@ -31,12 +24,12 @@ const isCartOpened = computed(() => {
   >
     <div v-if="props.isMenusVisible" class="base-header__menu-button-container">
       <Button
-        :aria-pressed="isMenuOpened"
+        :aria-pressed="sideMenus.isMenuOpened"
         aria-label="Toggle Menu"
         class="base-header__button"
         @click="sideMenus.toggleMenu"
       >
-        <IconMenu :isOpen="isMenuOpened" />
+        <IconMenu class="base-header__icon" :isOpen="sideMenus.isMenuOpened" />
       </Button>
     </div>
     <img
@@ -46,7 +39,7 @@ const isCartOpened = computed(() => {
     />
     <div v-if="props.isMenusVisible" class="base-header__cart-button-container">
       <Button
-        :aria-pressed="isCartOpened"
+        :aria-pressed="sideMenus.isCartOpened"
         aria-label="Toggle Cart"
         class="base-header__button"
         @click="sideMenus.toggleCart"
@@ -56,16 +49,8 @@ const isCartOpened = computed(() => {
       <CartCount class="base-header__cart-counter" />
     </div>
 
-    <PanelMenu
-      v-if="props.isMenusVisible"
-      v-model="isMenuOpened"
-      class="base-header__menu"
-    />
-    <PanelCart
-      v-if="props.isMenusVisible"
-      v-model="isCartOpened"
-      class="base-header__cart"
-    />
+    <PanelMenu v-if="props.isMenusVisible" class="base-header__menu" />
+    <PanelCart v-if="props.isMenusVisible" class="base-header__cart" />
   </header>
 </template>
 
@@ -80,6 +65,11 @@ const isCartOpened = computed(() => {
   &--narrower {
     padding: 0.875rem 1.25rem;
     justify-content: space-between;
+  }
+
+  &__icon {
+    pointer-events: none;
+    touch-action: none;
   }
 
   &__button {
