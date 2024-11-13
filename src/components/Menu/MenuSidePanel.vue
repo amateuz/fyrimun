@@ -10,7 +10,7 @@ const sideMenus = useSideMenusStore()
 <template>
   <SidePanel
     v-model="sideMenus.isMenuOpened"
-    :view-overlay-on-open="false"
+    :show-overlay-on-open="false"
     position="left"
   >
     <template #panel-side-top="{ closePanel }">

@@ -5,7 +5,7 @@ import { onClickOutside } from '@vueuse/core'
 import { useAnimationStore } from '@/stores/animation'
 
 interface PanelSideProps {
-  viewOverlayOnOpen?: boolean
+  showOverlayOnOpen?: boolean
   position?: 'left' | 'right'
   width?: Properties['width']
   maxWidth?: Properties['maxWidth']
@@ -14,7 +14,7 @@ interface PanelSideProps {
 }
 
 const props = withDefaults(defineProps<PanelSideProps>(), {
-  viewOverlayOnOpen: true,
+  showOverlayOnOpen: true,
   position: 'left',
   width: '18rem',
   maxWidth: 'unset',
@@ -45,7 +45,7 @@ const closePanel = () => {
 onClickOutside(panelSideRef, closePanel)
 
 watch(
-  () => props.viewOverlayOnOpen && isOpened.value,
+  () => props.showOverlayOnOpen && isOpened.value,
   (newVal) => {
     document.body.style.overflow = newVal ? 'hidden' : ''
   },
@@ -63,7 +63,7 @@ watch(
   >
     <slot name="panel-side-top" :closePanel="closePanel" />
     <slot />
-    <Teleport to="#app" v-if="props.viewOverlayOnOpen">
+    <Teleport to="#app" v-if="props.showOverlayOnOpen">
       <Transition :name="animation.isEnabled ? 'fadeIn' : 'none'">
         <div v-if="isOpened" class="panel-side__overlay" />
       </Transition>
