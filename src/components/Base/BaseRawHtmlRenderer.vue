@@ -100,6 +100,11 @@ onMounted(async () => {
 
 <style lang="scss">
 .base-wysiwyg {
+  img {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   ul {
     margin-left: 20px;
     list-style-type: disc;
