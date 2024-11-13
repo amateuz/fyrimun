@@ -8,6 +8,14 @@ import Counter from '@/components/Base/BaseCounter.vue'
 import Price from '@/components/Base/BasePrice.vue'
 import CartCount from '@/components/Cart/CartCount.vue'
 
+interface CartItemProps {
+  isInteractive: boolean
+  theme?: 'default' | 'darker'
+}
+
+const props = withDefaults(defineProps<CartItemProps>(), {
+  isInteractive: true
+})
 const cartProduct = defineModel<CartProduct>('modelValue', { default: {} })
 const cartStore = useCartStore()
 
@@ -41,16 +49,22 @@ const removeItem = () => {
 </script>
 
 <template>
-  <div class="cart-item">
+  <div
+    :class="[
+      'cart-item',
+      { 'cart-item--non-interactive': !isInteractive },
+      { [`cart-item--theme-${props.theme}`]: props.theme }
+    ]"
+  >
     <div class="cart-item__img-container">
       <img
-        class="cart-item__img"
         :src="productImagePath ?? '/img/placeholder.png'"
         alt="product image"
+        class="cart-item__img"
       />
       <CartCount
-        class="cart-item__cart-counter"
         :count="cartStore.totalProductQuantity(cartProduct)"
+        class="cart-item__cart-counter"
       />
     </div>
     <div class="cart-item__content">
@@ -63,7 +77,7 @@ const removeItem = () => {
             {{ cartProduct.color.label }}/{{ cartProduct.size.label }}
           </div>
         </div>
-        <div class="cart-item__remove">
+        <div v-if="props.isInteractive" class="cart-item__remove">
           <button class="cart-item__remove-button" @click="removeItem">
             <SvgIcon class="cart-item__remove-icon" name="cart-delete" />
           </button>
@@ -72,12 +86,17 @@ const removeItem = () => {
       <div class="cart-item__content-row cart-item__content-row--bottom">
         <div class="cart-item__actions">
           <!-- direct store access for simplicity -->
-          <Counter class="cart-item__counter" v-model="cartProduct.quantity" />
+          <Counter
+            v-if="props.isInteractive"
+            v-model="cartProduct.quantity"
+            class="cart-item__counter"
+          />
           <Price
-            class="cart-item__price"
-            :price="cartProduct.price"
             :old-price="cartProduct.oldPrice"
+            :price="cartProduct.price"
             :show-discount="false"
+            :show-old-price="props.isInteractive"
+            class="cart-item__price"
           />
         </div>
       </div>
@@ -87,6 +106,7 @@ const removeItem = () => {
 
 <style lang="scss" scoped>
 .cart-item {
+  $r: &;
   display: flex;
   flex: 1 1 auto;
   justify-content: space-between;
@@ -96,6 +116,49 @@ const removeItem = () => {
   padding-bottom: 0.75rem;
 
   border-bottom: 1px solid $color-grey--15;
+
+  &--non-interactive {
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+
+    align-items: center;
+    gap: 1rem;
+
+    #{$r}__img-container {
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 0;
+      border: none;
+    }
+
+    #{$r}__img {
+      border-radius: 0;
+      object-fit: contain;
+    }
+
+    #{$r}__cart-counter {
+      font-size: 0.75rem;
+    }
+
+    #{$r}__content {
+      flex-direction: row;
+    }
+
+    #{$r}__price {
+      font-size: 1rem;
+    }
+  }
+
+  &--theme-darker {
+    #{$r}__variant {
+      color: $color-grey-10;
+    }
+
+    #{$r}__cart-counter {
+      background-color: $color-dark;
+    }
+  }
 
   &__img-container {
     width: 52px;

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import IconCart from '@/assets/img/icons/cart.svg'
 import IconMenu from '@/components/Menu/MenuIcon.vue'
 import PanelMenu from '@/components/Menu/MenuSidePanel.vue'
@@ -6,6 +6,13 @@ import PanelCart from '@/components/Cart/CartSidePanel.vue'
 import Button from '@/components/Base/BaseButton.vue'
 import CartCount from '@/components/Cart/CartCount.vue'
 
+interface BaseHeaderProps {
+  isMenusVisible?: boolean
+}
+
+const props = withDefaults(defineProps<BaseHeaderProps>(), {
+  isMenusVisible: true
+})
 const isMenuOpened = defineModel('isMenuOpened', { default: false })
 const isCartOpened = defineModel('isCartOpened', { default: false })
 
@@ -19,47 +26,70 @@ const toggleCart = () => {
 </script>
 
 <template>
-  <header class="header-actions">
-    <div class="header-actions__menu-button-container">
+  <header
+    :class="[
+      'header-actions',
+      { 'header-actions--narrower': props.isMenusVisible }
+    ]"
+  >
+    <div
+      v-if="props.isMenusVisible"
+      class="header-actions__menu-button-container"
+    >
       <Button
-        class="header-actions__button"
-        @click="toggleMenu"
         :aria-pressed="isMenuOpened"
         aria-label="Toggle Menu"
+        class="header-actions__button"
+        @click="toggleMenu"
       >
         <IconMenu :isOpen="isMenuOpened" />
       </Button>
     </div>
     <img
+      alt="Logo"
       class="header-actions__logo"
       src="@/assets/img/logo-compressed.webp"
-      alt="Logo"
     />
-    <div class="header-actions__cart-button-container">
+    <div
+      v-if="props.isMenusVisible"
+      class="header-actions__cart-button-container"
+    >
       <Button
-        class="header-actions__button"
-        @click="toggleCart"
         :aria-pressed="isCartOpened"
         aria-label="Toggle Cart"
+        class="header-actions__button"
+        @click="toggleCart"
       >
         <IconCart />
       </Button>
       <CartCount class="header-actions__cart-counter" />
     </div>
 
-    <PanelMenu class="header-actions__menu" v-model="isMenuOpened" />
-    <PanelCart class="header-actions__cart" v-model="isCartOpened" />
+    <PanelMenu
+      v-if="props.isMenusVisible"
+      v-model="isMenuOpened"
+      class="header-actions__menu"
+    />
+    <PanelCart
+      v-if="props.isMenusVisible"
+      v-model="isCartOpened"
+      class="header-actions__cart"
+    />
   </header>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .header-actions {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding-block: calc(10px + 0.25rem);
-  padding-inline: calc(16px + 0.25rem);
+  padding: 0.625rem 1rem;
   border-bottom: 0.8px solid $color-grey--15;
+
+  &--narrower {
+    padding: 0.875rem 1.25rem;
+    justify-content: space-between;
+  }
 
   &__button {
     width: 20px;

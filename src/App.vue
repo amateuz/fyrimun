@@ -7,7 +7,10 @@ import AppFooter from '@/components/Layout/AppFooter.vue'
 
 const router = useRouter()
 const isBannerVisible = computed(
-  () => router.currentRoute.value.name !== 'cart'
+  () => router.currentRoute.value.name === 'product'
+)
+const isMenusVisible = computed(
+  () => router.currentRoute.value.name !== 'checkout'
 )
 const isMenuOpened = ref<boolean>(false)
 const isCartOpened = ref<boolean>(false)
@@ -33,6 +36,7 @@ router.afterEach(() => {
 
 <template>
   <AppHeader
+    :is-menus-visible="isMenusVisible"
     :is-banner-visible="isBannerVisible"
     v-model:is-cart-opened="isCartOpened"
     v-model:is-menu-opened="isMenuOpened"

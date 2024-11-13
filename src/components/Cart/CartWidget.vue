@@ -1,34 +1,48 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed } from 'vue'
 import { useCartStore } from '@/stores/cart'
-import { Link as LinkType } from '@/types'
+import { type Link as LinkType } from '@/types'
 import CartItem from '@/components/Cart/CartItem.vue'
 import Link from '@/components/Base/BaseLink.vue'
 import BaseSeparator from '@/components/Base/BaseSeparator.vue'
+import limitedStock from '@/assets/img/limited-stock.png'
+import BaseTimer from '@/components/Base/BaseTimer.vue'
+
+interface CartWidgetProps {
+  heading?: string
+  totalHeading?: string
+  type?: 'embed' | 'cart' | 'checkout'
+  buttons?: Array<LinkType>
+  theme?: 'default' | 'darker'
+}
+
+const props = withDefaults(defineProps<CartWidgetProps>(), {
+  type: 'cart'
+})
 
 const cartStore = useCartStore()
 const getFormattedTotalPrice = computed(() => {
   return parseFloat(cartStore.totalPrice.toFixed(2)).toString()
 })
 
-interface CartWidgetProps {
-  heading?: string
-  totalHeading?: string
-  type?: 'embed' | 'standalone'
-  buttons?: Array<LinkType>
-}
-
-const props = withDefaults(defineProps<CartWidgetProps>(), {
-  type: 'standalone'
+const isCart = computed(() => {
+  return props.type === 'cart'
+})
+const isCheckout = computed(() => {
+  return props.type === 'checkout'
 })
 
-const isStandalone = computed(() => {
-  return props.type === 'standalone'
-})
+const shippingCost = 0
 </script>
 
 <template>
-  <div :class="`cart-widget cart-widget--${type}`">
+  <div
+    :class="[
+      'cart-widget',
+      `cart-widget--${props.type}`,
+      { [`cart-widget--theme-${props.theme}`]: props.theme }
+    ]"
+  >
     <h3 v-if="heading" class="cart-widget__heading">
       {{ heading }}
     </h3>
@@ -37,9 +51,11 @@ const isStandalone = computed(() => {
         v-for="(cartProduct, index) in cartStore.cartProducts"
         :key="`cart-product-${index}`"
         v-model="cartStore.cartProducts[index]"
+        :is-interactive="!isCheckout"
+        :theme="props.theme"
       />
     </div>
-    <div class="cart-total">
+    <div class="cart-widget__cart-total cart-total">
       <h5 v-if="totalHeading" class="cart-total__heading">
         {{ totalHeading }}
       </h5>
@@ -47,7 +63,7 @@ const isStandalone = computed(() => {
         <div class="cart-total__line">
           <span
             >Subtotal
-            <template v-if="isStandalone"
+            <template v-if="isCart || isCheckout"
               >({{ cartStore.totalQuantity }} items)</template
             ></span
           >
@@ -55,9 +71,14 @@ const isStandalone = computed(() => {
             `$${getFormattedTotalPrice}`
           }}</span>
         </div>
-        <div class="cart-total__line">
+        <div v-if="isCheckout" class="cart-total__line">
+          <span>Shipping</span>
+          <span> ${{ shippingCost }}</span>
+        </div>
+        <div v-else class="cart-total__line">
           <span>Shipping & taxes calculated at checkout.</span>
         </div>
+        <BaseSeparator v-if="isCheckout" />
         <div class="cart-total__line">
           <span>Total</span>
           <span class="cart-total__text--accent">{{
@@ -65,8 +86,8 @@ const isStandalone = computed(() => {
           }}</span>
         </div>
       </div>
-      <div class="cart-total__links">
-        <div v-if="isStandalone" class="cart-total__tax">
+      <div v-if="props.buttons" class="cart-total__links">
+        <div v-if="isCart" class="cart-total__tax">
           Tax & shipping calculated at checkout.
         </div>
         <template
@@ -80,19 +101,37 @@ const isStandalone = computed(() => {
             {{ button.text }}
           </Link>
           <BaseSeparator
-            v-if="isStandalone && index !== props.buttons.length - 1"
+            v-if="isCart && props.buttons && index !== props.buttons.length - 1"
           />
         </template>
+      </div>
+    </div>
+    <div v-if="isCheckout" class="cart-widget__promo cart-promo">
+      <div class="cart-promo__img-container">
+        <img :src="limitedStock" alt="limited stock" class="cart-promo__img" />
+      </div>
+      <div class="cart-promo__text-content">
+        <h5 class="cart-promo__heading">Limited Stock!</h5>
+        <div class="cart-promo__text">
+          No worries, we have reserved your order. Your order is reserved for
+          <BaseTimer class="cart-promo__timer" time-format="mm:ss" />
+          minutes
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .cart-widget {
+  $r: &;
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
+
+  &--theme-darker {
+    background-color: $color-grey-transparent--15;
+  }
 
   &--embed {
     position: relative;
@@ -113,7 +152,7 @@ const isStandalone = computed(() => {
     }
   }
 
-  &--standalone {
+  &--cart {
     .cart-total {
       margin-top: 4rem;
       margin-bottom: 1rem;
@@ -174,6 +213,44 @@ const isStandalone = computed(() => {
             background-color: $color-red--10;
           }
         }
+      }
+    }
+  }
+
+  &--checkout {
+    padding-bottom: 2.5rem;
+
+    #{$r}__heading {
+      @include font-family(Poppins);
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-align: left;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .cart-total {
+      padding-top: 1.5rem;
+
+      .block-separator {
+        background-color: $color-grey-10;
+      }
+
+      &__line {
+        font-size: 1rem;
+        line-height: 1.5rem;
+        font-weight: 400;
+      }
+
+      &__text {
+        &--accent {
+          font-size: 1.5rem;
+        }
+      }
+
+      &__total {
+        gap: 1rem;
       }
     }
   }
@@ -258,6 +335,63 @@ const isStandalone = computed(() => {
 
     &--accent {
       @include button-accent($hover: false);
+    }
+  }
+}
+
+.cart-promo {
+  border: 1px solid $color-grey;
+  border-radius: 6px;
+  background-color: $color-white;
+  padding: 2rem 1.5rem;
+  margin: 1.5rem auto 0;
+  max-width: min(610px, calc(100% - 2rem));
+
+  display: flex;
+  gap: 1.5rem;
+  justify-content: space-between;
+  align-items: center;
+  width: auto;
+
+  &__img-container {
+    width: 4rem;
+    height: 4rem;
+    flex-shrink: 0;
+  }
+
+  &__img {
+    object-fit: contain;
+  }
+
+  &__text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__heading {
+    @include font-family(Poppins);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: $color-dark;
+  }
+
+  &__text {
+    @include font-family(Inter);
+    font-size: 0.75rem;
+    color: $color-grey-13;
+  }
+
+  &__timer {
+    display: inline-block;
+    font-size: 0.75rem;
+    width: auto;
+    min-width: 4.5ch;
+
+    :deep(.base-timer__time) {
+      color: $color-red;
+      text-align: center;
+      width: 100%;
     }
   }
 }

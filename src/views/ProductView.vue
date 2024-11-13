@@ -39,6 +39,8 @@ const cartProduct = ref<CartProduct>({
 const carousel = ref<{ swiper: SwiperClass } | null>(null)
 const addToCartButtonRef = ref<HTMLElement | null>(null)
 const isQuickAddVisible = ref<boolean>(false)
+const productTimerHeading = 'SALE ENDING IN'
+const productTimerEndText = 'HURRY UP. THIS DEAL WILL END SOON!!'
 
 const getSlideToIndex = (color: Option) => {
   const foundMap = product.colorImageMap.find((map) => map[0] === color.value)
@@ -128,7 +130,11 @@ onUnmounted(() => {
         />
         <ProductViewersCount />
         <div class="product-view__timer-container">
-          <ProductTimer />
+          <ProductTimer
+            :heading="productTimerHeading"
+            :show-progress-bar="true"
+            :time-is-up-text="productTimerEndText"
+          />
         </div>
       </div>
       <ProductHighlights :items="product.highlights" />

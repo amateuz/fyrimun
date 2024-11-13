@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { Link } from '@/types'
+import { type Link } from '@/types'
 import CartWidget from '@/components/Cart/CartWidget.vue'
 
-const buttons: [Link] = [
+defineOptions({
+  inheritAttrs: false
+})
+
+const buttons: Link[] = [
   {
     text: 'Proceed To Checkout',
     href: '/checkout',
@@ -17,12 +21,10 @@ const buttons: [Link] = [
 </script>
 
 <template>
-  <div>
-    <CartWidget
-      :buttons="buttons"
-      heading="Your Cart"
-      total-heading="Cart totals"
-      type="standalone"
-    />
-  </div>
+  <CartWidget
+    :buttons="buttons"
+    heading="Your Cart"
+    total-heading="Cart totals"
+    type="cart"
+  />
 </template>

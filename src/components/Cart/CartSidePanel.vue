@@ -2,11 +2,11 @@
 import SidePanel from '@/components/Base/BaseSidePanel.vue'
 import IconClose from '@/assets/img/icons/close-cart.svg'
 import CartWidget from '@/components/Cart/CartWidget.vue'
-import { Link } from '@/types'
+import { type Link } from '@/types'
 
 const isOpened = defineModel<boolean>('modelValue')
 
-const buttons: [Link] = [
+const buttons: Link[] = [
   {
     href: '/cart',
     text: 'View My Cart',
