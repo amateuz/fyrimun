@@ -27,19 +27,13 @@ const isCartOpened = computed(() => {
 
 <template>
   <header
-    :class="[
-      'header-actions',
-      { 'header-actions--narrower': props.isMenusVisible }
-    ]"
+    :class="['base-header', { 'base-header--narrower': props.isMenusVisible }]"
   >
-    <div
-      v-if="props.isMenusVisible"
-      class="header-actions__menu-button-container"
-    >
+    <div v-if="props.isMenusVisible" class="base-header__menu-button-container">
       <Button
         :aria-pressed="isMenuOpened"
         aria-label="Toggle Menu"
-        class="header-actions__button"
+        class="base-header__button"
         @click="sideMenus.toggleMenu"
       >
         <IconMenu :isOpen="isMenuOpened" />
@@ -47,39 +41,36 @@ const isCartOpened = computed(() => {
     </div>
     <img
       alt="Logo"
-      class="header-actions__logo"
+      class="base-header__logo"
       src="@/assets/img/logo-compressed.webp"
     />
-    <div
-      v-if="props.isMenusVisible"
-      class="header-actions__cart-button-container"
-    >
+    <div v-if="props.isMenusVisible" class="base-header__cart-button-container">
       <Button
         :aria-pressed="isCartOpened"
         aria-label="Toggle Cart"
-        class="header-actions__button"
+        class="base-header__button"
         @click="sideMenus.toggleCart"
       >
         <IconCart />
       </Button>
-      <CartCount class="header-actions__cart-counter" />
+      <CartCount class="base-header__cart-counter" />
     </div>
 
     <PanelMenu
       v-if="props.isMenusVisible"
       v-model="isMenuOpened"
-      class="header-actions__menu"
+      class="base-header__menu"
     />
     <PanelCart
       v-if="props.isMenusVisible"
       v-model="isCartOpened"
-      class="header-actions__cart"
+      class="base-header__cart"
     />
   </header>
 </template>
 
 <style lang="scss" scoped>
-.header-actions {
+.base-header {
   display: flex;
   justify-content: center;
   align-items: center;
