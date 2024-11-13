@@ -3,6 +3,7 @@ import IconCart from '@/assets/img/icons/cart.svg'
 import IconMenu from '@/components/Menu/MenuIcon.vue'
 import Button from '@/components/Base/BaseButton.vue'
 import CartCount from '@/components/Cart/CartCount.vue'
+import Link from '@/components/Base/BaseLink.vue'
 import { useSideMenusStore } from '@/stores/sideMenus'
 
 interface BaseHeaderProps {
@@ -30,11 +31,9 @@ const props = withDefaults(defineProps<BaseHeaderProps>(), {
         <IconMenu class="base-header__icon" :isOpen="sideMenus.isMenuOpened" />
       </Button>
     </div>
-    <img
-      alt="Logo"
-      class="base-header__logo"
-      src="@/assets/img/logo-compressed.webp"
-    />
+    <Link class="base-header__logo" to="/">
+      <img alt="Logo" src="@/assets/img/logo-compressed.webp" />
+    </Link>
     <div v-if="props.isMenusVisible" class="base-header__cart-button-container">
       <Button
         :aria-pressed="sideMenus.isCartOpened"
