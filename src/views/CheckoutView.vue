@@ -2,10 +2,6 @@
 import CartWidget from '@/components/Cart/CartWidget.vue'
 import BaseForm from '@/components/Base/BaseForm.vue'
 import trustBadge from '@/assets/img/trust-badge.png'
-
-defineOptions({
-  inheritAttrs: false
-})
 </script>
 
 <template>
