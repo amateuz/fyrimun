@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import IconCart from '@/assets/img/icons/cart.svg'
 import IconMenu from '@/components/Menu/MenuIcon.vue'
-import PanelMenu from '@/components/Menu/MenuSidePanel.vue'
-import PanelCart from '@/components/Cart/CartSidePanel.vue'
 import Button from '@/components/Base/BaseButton.vue'
 import CartCount from '@/components/Cart/CartCount.vue'
 import { useSideMenusStore } from '@/stores/sideMenus'
@@ -48,9 +46,6 @@ const props = withDefaults(defineProps<BaseHeaderProps>(), {
       </Button>
       <CartCount class="base-header__cart-counter" />
     </div>
-
-    <PanelMenu v-if="props.isMenusVisible" class="base-header__menu" />
-    <PanelCart v-if="props.isMenusVisible" class="base-header__cart" />
   </header>
 </template>
 
@@ -61,6 +56,7 @@ const props = withDefaults(defineProps<BaseHeaderProps>(), {
   align-items: center;
   padding: 0.625rem 1rem;
   border-bottom: 0.8px solid $color-grey--15;
+  position: relative;
 
   &--narrower {
     padding: 0.875rem 1.25rem;
@@ -105,6 +101,20 @@ const props = withDefaults(defineProps<BaseHeaderProps>(), {
     position: absolute;
     top: 0;
     right: 0;
+  }
+
+  &__cart,
+  &__menu {
+    position: sticky;
+    top: 0;
+  }
+
+  &__cart {
+    right: 0;
+  }
+
+  &__menu {
+    left: 0;
   }
 }
 </style>

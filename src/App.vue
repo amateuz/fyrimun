@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
-import AppHeader from '@/components/Layout/AppHeader.vue'
-import AppFooter from '@/components/Layout/AppFooter.vue'
 import { useSideMenusStore } from '@/stores/sideMenus'
 import { useAnimationStore } from '@/stores/animation'
+import AppHeader from '@/components/Layout/AppHeader.vue'
+import AppFooter from '@/components/Layout/AppFooter.vue'
+import PanelCart from '@/components/Cart/CartSidePanel.vue'
+import PanelMenu from '@/components/Menu/MenuSidePanel.vue'
 
 const router = useRouter()
 const sideMenus = useSideMenusStore()
@@ -29,9 +31,13 @@ router.afterEach(() => {
 </script>
 
 <template>
+  <div v-if="isMenusVisible" class="side-panels">
+    <PanelMenu class="menu" />
+    <PanelCart class="cart" />
+  </div>
   <AppHeader
-    :is-menus-visible="isMenusVisible"
     :is-banner-visible="isBannerVisible"
+    :is-menus-visible="isMenusVisible"
   />
   <main class="main">
     <RouterView />
