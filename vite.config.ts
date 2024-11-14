@@ -3,10 +3,13 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import svgLoader from 'vite-svg-loader'
-import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
+import compression from 'vite-plugin-compression2'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    cssCodeSplit: true
+  },
   css: {
     preprocessorOptions: {
       scss: {
@@ -17,7 +20,7 @@ export default defineConfig({
       }
     }
   },
-  plugins: [vue(), vueDevTools(), svgLoader()],
+  plugins: [vue(), vueDevTools(), svgLoader(), compression()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
