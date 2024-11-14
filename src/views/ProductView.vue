@@ -379,6 +379,9 @@ onUnmounted(() => {
   }
 
   &__safe-checkout {
+    margin-left: auto;
+    margin-right: auto;
+  
     aspect-ratio: auto;
     object-fit: cover;
 
