@@ -55,11 +55,12 @@ const props = withDefaults(defineProps<BaseHeaderProps>(), {
   align-items: center;
   padding: 0.625rem 1rem;
   border-bottom: 0.8px solid $color-grey--15;
+
   position: relative;
 
   &--narrower {
-    padding: 0.875rem 1.25rem;
     justify-content: space-between;
+    padding: 0.875rem 1.25rem;
   }
 
   &__icon {
@@ -93,6 +94,7 @@ const props = withDefaults(defineProps<BaseHeaderProps>(), {
     justify-content: center;
     align-items: center;
     padding: 8px;
+
     position: relative;
   }
 

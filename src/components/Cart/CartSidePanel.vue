@@ -78,15 +78,16 @@ const closeCartPanelWhenSameRoute = (href: string) => {
     align-items: center;
     padding: 1rem;
 
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: $z-nav;
+
     font-size: 1rem;
 
+    background-color: $color-white;
     color: $color-dark;
     border-bottom: 1px solid $color-grey--15;
-    background-color: $color-white;
-    position: sticky;
-    left: 0;
-    top: 0;
-    z-index: $z-nav;
   }
 
   &__close-button {

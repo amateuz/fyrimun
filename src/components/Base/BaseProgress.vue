@@ -31,6 +31,7 @@ const props = withDefaults(
     overflow: hidden;
 
     position: relative;
+
     background-color: $color-grey--10;
   }
 

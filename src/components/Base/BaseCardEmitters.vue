@@ -111,28 +111,29 @@ onMounted(cycleIcons)
 .card-emitters {
   display: flex;
   justify-content: flex-end;
-  border: 0.8px solid transparent;
   align-items: center;
+  padding: 0.75rem;
+  height: 100%;
+  border: 0.8px solid transparent;
 
   position: absolute;
   top: 0;
   right: 0;
-  padding: 0.75rem;
-  height: 100%;
 }
 
 .card-known-icon {
   display: flex;
   justify-content: flex-end;
-  border: 0.8px solid transparent;
   align-items: center;
+  padding: 0.75rem;
+  width: 53px;
+  height: 100%;
+  border: 0.8px solid transparent;
 
   position: absolute;
   top: 0;
   right: 0;
-  padding: 0.75rem;
-  height: 100%;
-  width: 53px;
+
   opacity: 1;
 
   transition:
@@ -149,23 +150,25 @@ onMounted(cycleIcons)
   $r: &;
   display: flex;
   justify-content: space-between;
-  border: 0.8px solid transparent;
   align-items: center;
+  padding: 0.75rem;
+  width: 152px;
+  height: 100%;
+  border: 0.8px solid transparent;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+
   transition:
     transform 0.6s ease,
     opacity 0.6s ease;
   transform-origin: right center;
 
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 0.75rem;
-  height: 100%;
-  width: 152px;
-
   &--slide {
-    opacity: 0;
     justify-content: flex-end;
+
+    opacity: 0;
     pointer-events: none;
     touch-action: none;
 
@@ -181,16 +184,18 @@ onMounted(cycleIcons)
   }
 
   &__icon {
+    display: block;
     flex: 1 1 100%;
+    width: auto;
+    height: 100%;
+
     position: relative;
+
     opacity: 1;
+
     transition:
       opacity 0.7s cubic-bezier(0.19, 1, 0.22, 1),
       transform 0.7s cubic-bezier(0.19, 1, 0.22, 1);
-
-    display: block;
-    height: 100%;
-    width: auto;
 
     &:not(&:last-child) {
       padding-right: 0.2em;
@@ -198,18 +203,16 @@ onMounted(cycleIcons)
   }
 
   &__cycling-icon {
-    position: absolute;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
     display: block;
-    height: auto;
     width: auto;
+    height: auto;
+
+    position: absolute;
+    inset: 0;
+
+    opacity: 0;
+
+    transition: opacity 0.3s ease-in-out;
 
     &--active {
       opacity: 1;
@@ -217,10 +220,11 @@ onMounted(cycleIcons)
   }
 
   &__cycling-container {
-    position: relative;
     display: flex;
     flex: 1 1 100%;
     height: 100%;
+
+    position: relative;
   }
 }
 
@@ -234,6 +238,7 @@ onMounted(cycleIcons)
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+
   transition:
     opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1),
     transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
@@ -243,6 +248,7 @@ onMounted(cycleIcons)
 .fade-enter-to,
 .fade-leave-from {
   opacity: 1;
+
   transition:
     opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1),
     transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);

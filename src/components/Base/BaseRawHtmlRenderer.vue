@@ -101,8 +101,8 @@ onMounted(async () => {
 <style lang="scss">
 .base-wysiwyg {
   img {
-    margin-left: auto;
     margin-right: auto;
+    margin-left: auto;
   }
 
   ul {

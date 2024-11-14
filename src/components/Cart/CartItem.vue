@@ -122,18 +122,17 @@ const removeItem = () => {
   border-bottom: 1px solid $color-grey--15;
 
   &--non-interactive {
+    align-items: center;
+    gap: 1rem;
     padding-top: 0;
     padding-bottom: 0;
     border-bottom: none;
 
-    align-items: center;
-    gap: 1rem;
-
     #{$r}__img-container {
       width: 3.5rem;
       height: 3.5rem;
-      border-radius: 0;
       border: none;
+      border-radius: 0;
     }
 
     #{$r}__img {
@@ -170,6 +169,7 @@ const removeItem = () => {
     border: 1px solid $color-grey--1;
     border-radius: 0.5rem;
     flex-shrink: 0;
+
     position: relative;
   }
 
@@ -181,15 +181,18 @@ const removeItem = () => {
   }
 
   &__cart-counter {
-    background-color: $color-red--7;
+    width: 20px;
+    height: 20px;
+
     position: absolute;
     top: 0;
     right: 0;
     transform: translate(50%, -50%);
-    width: 20px;
-    height: 20px;
+
     font-size: 0.875rem;
     line-height: 1.25rem;
+
+    background-color: $color-red--7;
   }
 
   &__content {

@@ -28,19 +28,19 @@ import trustBadge from '@/assets/img/trust-badge.png'
 .payment-form {
   @include font-family(Poppins);
 
-  padding: 2.5rem 1rem;
-
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
   justify-content: center;
   align-items: center;
+  gap: 1.5rem;
+  padding: 2.5rem 1rem;
 
   &__heading {
-    color: $color-dark;
     font-size: 1.5rem;
     font-weight: 600;
     text-align: left;
+
+    color: $color-dark;
     align-self: flex-start;
   }
 
@@ -48,9 +48,9 @@ import trustBadge from '@/assets/img/trust-badge.png'
     @include font-family(Inter);
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
     justify-content: center;
     align-items: center;
+    gap: 0.5rem;
   }
 
   &__img {

@@ -452,11 +452,12 @@ onBeforeMount(() => {
 @mixin focus-style {
   border-color: $color-blue-10;
   outline: 0;
+
   box-shadow:
-    0 1px 1px rgba(0, 0, 0, 0.03),
-    0 3px 6px rgba(0, 0, 0, 0.02),
-    0 0 0 3px hsla(210, 96%, 45%, 25%),
-    0 1px 1px 0 rgba(0, 0, 0, 0.08);
+    0 1px 1px rgb(0 0 0 / 3%),
+    0 3px 6px rgb(0 0 0 / 2%),
+    0 0 0 3px hsl(210deg 96% 45% / 25%),
+    0 1px 1px 0 rgb(0 0 0 / 8%);
 }
 
 .form {
@@ -477,6 +478,7 @@ onBeforeMount(() => {
 
   &__group {
     flex-grow: 1;
+
     margin-bottom: 0.75rem;
 
     &--checkbox {
@@ -489,38 +491,42 @@ onBeforeMount(() => {
   }
 
   &__input-icon {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0.75rem;
     border: 0.8px solid transparent;
+
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
-    padding: 0.75rem;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
     pointer-events: none;
     touch-action: none;
 
     .svg-icon {
-      max-height: unset;
-      height: 1.95em;
       width: 1.95em;
+      height: 1.95em;
+      max-height: unset;
     }
   }
 
   &__label,
   &__checkbox-label {
-    color: $color-grey-17;
+    display: block;
+    margin-bottom: 0.25rem;
+
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
       Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 0.93rem;
     line-height: 1.15;
-    margin-bottom: 0.25rem;
-    display: block;
-    touch-action: manipulation;
+
+    color: $color-grey-17;
+
     transition:
       transform 0.5s cubic-bezier(0.19, 1, 0.22, 1),
       opacity 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    touch-action: manipulation;
   }
 
   &__checkbox-label {
@@ -530,27 +536,30 @@ onBeforeMount(() => {
   &__input,
   &__select,
   &__checkbox-box {
-    color: $color-grey-17;
+    padding: 0.75rem;
     width: 100%;
-    background-color: $color-white;
+    border: 1px solid $color-grey--12;
+    border-radius: 5px;
+
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
       Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    line-height: 1.35rem;
-    border-radius: 5px;
-    padding: 0.75rem;
     font-size: 1rem;
-    border: 1px solid $color-grey--12;
-    animation: native-autofill-out 1ms ease;
-    touch-action: manipulation;
-    appearance: none;
+    line-height: 1.35rem;
+
+    background-color: $color-white;
+    box-shadow:
+      0 1px 1px rgb(0 0 0 / 3%),
+      0 3px 6px rgb(0 0 0 / 2%);
+    color: $color-grey-17;
+
     transition:
       background 0.15s ease,
       border 0.15s ease,
       box-shadow 0.15s ease,
       color 0.15s ease;
-    box-shadow:
-      0 1px 1px rgba(0, 0, 0, 0.03),
-      0 3px 6px rgba(0, 0, 0, 0.02);
+    animation: native-autofill-out 1ms ease;
+    touch-action: manipulation;
+    appearance: none;
     outline-offset: 0;
     outline-width: 2px;
   }
@@ -562,8 +571,9 @@ onBeforeMount(() => {
     }
 
     &--error {
-      outline: 1px solid $color-red--3;
       border-color: $color-red--3;
+      outline: 1px solid $color-red--3;
+
       color: $color-red--3;
 
       &::placeholder {
@@ -573,9 +583,10 @@ onBeforeMount(() => {
   }
 
   &__select {
+    padding-right: 1.75rem;
+
     color: $color-grey-17;
     cursor: pointer;
-    padding-right: 1.75rem;
 
     option {
       &,
@@ -590,18 +601,21 @@ onBeforeMount(() => {
   }
 
   &__select-icon-container {
-    color: $color-grey-17;
-    font-size: 1rem;
-    position: absolute;
-    top: 0;
-    right: 0;
-    border: 0.8px solid transparent;
-    padding: 0.75rem;
-    z-index: $z-interactive;
-    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0.75rem;
+    height: 100%;
+    border: 0.8px solid transparent;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: $z-interactive;
+
+    font-size: 1rem;
+
+    color: $color-grey-17;
     pointer-events: none;
     touch-action: none;
 
@@ -613,26 +627,31 @@ onBeforeMount(() => {
   }
 
   &__checkbox {
-    cursor: pointer;
+    padding: 0;
+    width: 100%;
     height: 100%;
-    left: 0;
-    opacity: 0;
+
     position: absolute;
     top: 0;
-    width: 100%;
-    padding: 0;
+    left: 0;
+
+    cursor: pointer;
+    opacity: 0;
   }
 
   &__checkbox-box {
-    cursor: pointer;
     display: block;
-    position: relative;
     padding: 0;
     height: 100%;
+
+    position: relative;
+
+    cursor: pointer;
   }
 
   &__checkbox:checked ~ &__checkbox-box {
     border: none;
+
     background-color: $color-blue-10;
 
     .form__checkmark-arm {
@@ -643,97 +662,115 @@ onBeforeMount(() => {
   &__checkbox-label {
     display: flex;
     align-items: center;
+
     cursor: pointer;
   }
 
   &__checkbox-container {
+    display: block;
+    margin-right: 0.5rem;
+    width: 1.3em;
+    height: 1.3em;
+    box-sizing: content-box;
+
+    position: relative;
+
+    cursor: pointer;
+    flex-shrink: 0;
+
     &:focus-within {
       .form__checkbox-box {
         @include focus-style;
       }
     }
-
-    cursor: pointer;
-    margin-right: 0.5rem;
-    box-sizing: content-box;
-    display: block;
-    flex-shrink: 0;
-    height: 1.3em;
-    position: relative;
-    width: 1.3em;
   }
 
   &__checkmark {
-    font-size: 0.93rem;
-    line-height: 1.15;
+    width: 64%;
     height: 32%;
-    left: 0;
+
     position: absolute;
     top: 0;
+    left: 0;
     transform: rotate(-45deg) translate(-10%, 100%);
-    width: 64%;
+
+    font-size: 0.93rem;
+    line-height: 1.15;
+
     opacity: 1;
+
     transition: opacity 0s ease;
   }
 
   &__checkmark-arm {
-    background-color: $color-white;
+    display: block;
+
+    position: absolute;
+    left: 0;
+    transform: scale(0);
+
     font-size: 0.93rem;
+    line-height: 1.15;
+
+    background-color: $color-white;
 
     content: '';
-    line-height: 1.15;
-    display: block;
-    left: 0;
-    position: absolute;
-    transform: scale(0);
     will-change: transform;
 
     &--left {
-      bottom: 1px;
-      top: 0;
-      transform-origin: 0 0;
-      transition: transform 0.1s ease 0.08s;
       width: max(2px, 0.15em);
+
+      top: 0;
+      bottom: 1px;
+
+      transition: transform 0.1s ease 0.08s;
+      transform-origin: 0 0;
     }
 
     &--right {
-      bottom: 0;
-      right: 0;
-      transform-origin: 0 100%;
-      transition: transform 0.1s ease 0.16s;
       height: max(2px, 0.15em);
+
+      right: 0;
+      bottom: 0;
+
+      transition: transform 0.1s ease 0.16s;
+      transform-origin: 0 100%;
     }
   }
 
   &__error {
     display: block;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: $color-red--3;
-    font-size: 0.93rem;
-    line-height: 1.15em;
     margin-top: 0.25rem;
     max-height: 37px;
+
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 0.93rem;
+    line-height: 1.15em;
+
+    color: $color-red--3;
   }
 
   &__button {
     @include font-family(Inter);
-    background-color: $color-blue;
-    border-radius: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 3rem;
-    width: 100%;
-    color: $color-white;
     padding-top: 0.6875rem;
     padding-bottom: 0.6875rem;
+    width: 100%;
+    height: 3rem;
     border: none;
+    border-radius: 100px;
+
+    font-size: 1.125rem;
     font-weight: 500;
     line-height: 1.625rem;
-    font-size: 1.125rem;
-    cursor: pointer;
     text-align: center;
+
+    background-color: $color-blue;
+    color: $color-white;
+    cursor: pointer;
   }
 }
 
@@ -757,22 +794,25 @@ onBeforeMount(() => {
 .slideInError-enter-from,
 .slideInError-leave-to {
   max-height: 0;
+
   opacity: 0;
 }
 
 .slideInError-enter-to,
 .slideInError-leave-from {
   max-height: 37px;
+
   opacity: 1;
 }
 
 .slideIn-enter-active,
 .slideIn-leave-active {
+  overflow: hidden;
+
   transition:
     max-height 0.35s ease,
     margin 0.35s ease,
     opacity 0.4s 0.1s ease;
-  overflow: hidden;
 }
 
 .slideIn-enter-from,
@@ -784,7 +824,7 @@ onBeforeMount(() => {
 
 .slideIn-enter-to,
 .slideIn-leave-from {
-  max-height: 69px;
   margin-bottom: 0.75rem;
+  max-height: 69px;
 }
 </style>

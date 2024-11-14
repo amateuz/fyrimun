@@ -29,10 +29,13 @@ html {
 }
 
 body {
-  color: $color-dark-5;
   min-height: 100vh;
+
   font-family: map-get($root-variables, def-font-family);
   font-size: map-get($root-variables, def-font-size);
+
+  color: $color-dark-5;
+
   transition:
     color 0.5s,
     background-color 0.5s;
@@ -55,7 +58,9 @@ input[type='reset'] {
   padding: 0;
   border: none;
   outline: inherit;
+
   font: inherit;
+
   background: none;
   color: inherit;
   cursor: pointer;

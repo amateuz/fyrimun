@@ -247,7 +247,7 @@ onUnmounted(() => {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
-    padding: 0 0 1.5rem 0;
+    padding: 0 0 1.5rem;
   }
 
   &__product-info-header {
@@ -260,19 +260,23 @@ onUnmounted(() => {
     @include font-family(Poppins);
     display: block;
     overflow-wrap: break-word;
+
     text-align: left;
 
     &--h3 {
       font-size: 2rem;
       font-weight: 600;
       line-height: 2.5rem;
+
       color: $color-dark-20;
     }
 
     &--h5 {
+      margin-bottom: 1rem;
+
       font-size: 1rem;
       font-weight: 400;
-      margin-bottom: 1rem;
+
       color: $color-dark;
     }
 
@@ -308,6 +312,7 @@ onUnmounted(() => {
     @include font-family(Poppins);
     font-size: 1rem;
     font-weight: 400;
+
     color: $color-dark;
   }
 
@@ -337,9 +342,9 @@ onUnmounted(() => {
     align-items: center;
     gap: 0.5rem;
     padding: 12px;
+    width: 100%;
     height: 50px;
     border-radius: 0.25em;
-    width: 100%;
 
     color: white;
     fill: white;
@@ -409,8 +414,8 @@ onUnmounted(() => {
 
   &__cart-popup {
     position: fixed;
-    bottom: 160px;
     right: 2rem;
+    bottom: 160px;
   }
 
   .fade-enter-active,

@@ -110,8 +110,8 @@ watch(
 /* transition */
 .fadeIn-enter-active,
 .fadeIn-leave-active {
-  transition-property: background-color;
   transition-duration: 0.15s;
+  transition-property: background-color;
   transition-timing-function: $ease-in-out;
 }
 

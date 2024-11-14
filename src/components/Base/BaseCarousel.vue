@@ -298,8 +298,9 @@ const isLoading = ref(Array(allImagesPaths.length).fill(true))
     padding-left: 12px;
 
     #{$r}__img {
-      cursor: pointer;
       width: 84px;
+
+      cursor: pointer;
     }
 
     &#{$r}--selected {

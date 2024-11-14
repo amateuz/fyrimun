@@ -1,6 +1,7 @@
 @mixin set-non-interactive($disabledCursor: default) {
   pointer-events: none;
   user-select: none;
+
   cursor: $disabledCursor;
   touch-action: none;
 

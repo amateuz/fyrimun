@@ -144,11 +144,12 @@ const shippingCost = 0
     position: relative;
 
     .cart-total {
-      background-color: $color-white;
       position: sticky;
-      left: 0;
       bottom: 0;
+      left: 0;
       z-index: $z-nav;
+
+      background-color: $color-white;
       border-top: 1px solid $color-grey--15;
 
       &__text {
@@ -166,14 +167,16 @@ const shippingCost = 0
 
       &__heading {
         border-bottom: 1px solid $color-grey;
+
         padding-bottom: 1rem;
       }
 
       &__line {
-        font-size: 1rem;
-        line-height: 2.25rem;
-        font-weight: 400;
         margin-bottom: 0.25rem;
+
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 2.25rem;
 
         &:last-of-type {
           margin-bottom: 1rem;
@@ -182,11 +185,13 @@ const shippingCost = 0
 
       &__tax {
         @include font-family(Poppins);
-        color: $color-grey-5;
-        font-size: 0.875rem;
         width: 100%;
-        text-align: center;
+
+        font-size: 0.875rem;
         line-height: 1.375rem;
+        text-align: center;
+
+        color: $color-grey-5;
       }
 
       &__text {
@@ -198,12 +203,13 @@ const shippingCost = 0
 
       &__total {
         border-bottom: 1px solid $color-grey--15;
+
         gap: 0;
       }
 
       &__links {
-        margin-top: 1rem;
         gap: 1.5rem;
+        margin-top: 1rem;
       }
 
       &__link {
@@ -229,12 +235,13 @@ const shippingCost = 0
 
     #{$r}__heading {
       @include font-family(Poppins);
+      padding-right: 1rem;
+      padding-bottom: 0.5rem;
+      padding-left: 1rem;
+
       font-size: 1.5rem;
       font-weight: 600;
       text-align: left;
-      padding-left: 1rem;
-      padding-right: 1rem;
-      padding-bottom: 0.5rem;
     }
 
     .cart-total {
@@ -246,8 +253,8 @@ const shippingCost = 0
 
       &__line {
         font-size: 1rem;
-        line-height: 1.5rem;
         font-weight: 400;
+        line-height: 1.5rem;
       }
 
       &__text {
@@ -264,12 +271,14 @@ const shippingCost = 0
 
   &__heading {
     @include font-family(Poppins);
-    color: $color-dark;
-    font-size: 2.5rem;
-    font-weight: 700;
     padding-top: 2.5rem;
     padding-bottom: 1.5rem;
+
+    font-size: 2.5rem;
+    font-weight: 700;
     text-align: center;
+
+    color: $color-dark;
   }
 
   &__items {
@@ -290,16 +299,17 @@ const shippingCost = 0
   align-items: stretch;
   gap: 1.5rem;
   margin-top: auto;
+  padding: 1rem;
 
   font-size: 0.875rem;
-  padding: 1rem;
 
   color: $color-dark;
 
   &__heading {
+    padding-bottom: 1rem;
+
     font-size: 1.5rem;
     font-weight: 600;
-    padding-bottom: 1rem;
   }
 
   &__total {
@@ -347,18 +357,18 @@ const shippingCost = 0
 }
 
 .cart-promo {
-  border: 1px solid $color-grey;
-  border-radius: 6px;
-  background-color: $color-white;
-  padding: 2rem 1.5rem;
-  margin: 1.5rem auto 0;
-  max-width: min(610px, calc(100% - 2rem));
-
   display: flex;
-  gap: 1.5rem;
   justify-content: space-between;
   align-items: center;
+  gap: 1.5rem;
+  margin: 1.5rem auto 0;
+  padding: 2rem 1.5rem;
   width: auto;
+  max-width: min(610px, calc(100% - 2rem));
+  border: 1px solid $color-grey;
+  border-radius: 6px;
+
+  background-color: $color-white;
 
   &__img-container {
     width: 4rem;
@@ -380,25 +390,30 @@ const shippingCost = 0
     @include font-family(Poppins);
     font-size: 1.125rem;
     font-weight: 600;
+
     color: $color-dark;
   }
 
   &__text {
     @include font-family(Inter);
     font-size: 0.75rem;
+
     color: $color-grey-13;
   }
 
   &__timer {
     display: inline-block;
-    font-size: 0.75rem;
     width: auto;
     min-width: 4.5ch;
 
+    font-size: 0.75rem;
+
     :deep(.base-timer__time) {
-      color: $color-red;
-      text-align: center;
       width: 100%;
+
+      text-align: center;
+
+      color: $color-red;
     }
   }
 }
