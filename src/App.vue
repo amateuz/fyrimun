@@ -1,12 +1,17 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, defineAsyncComponent } from 'vue'
 import { RouterView, useRouter } from 'vue-router'
 import { useSideMenusStore } from '@/stores/sideMenus'
 import { useAnimationStore } from '@/stores/animation'
 import AppHeader from '@/components/Layout/AppHeader.vue'
 import AppFooter from '@/components/Layout/AppFooter.vue'
-import PanelCart from '@/components/Cart/CartSidePanel.vue'
-import PanelMenu from '@/components/Menu/MenuSidePanel.vue'
+
+const PanelCart = defineAsyncComponent(
+  () => import('@/components/Cart/CartSidePanel.vue')
+)
+const PanelMenu = defineAsyncComponent(
+  () => import('@/components/Menu/MenuSidePanel.vue')
+)
 
 const router = useRouter()
 const sideMenus = useSideMenusStore()

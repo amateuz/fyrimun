@@ -12,18 +12,44 @@ import ProductPrice from '@/components/Base/BasePrice.vue'
 import ProductStock from '@/components/Base/BaseStock.vue'
 import ProductStats from '@/components/Base/BaseCustomerStats.vue'
 import ProductViewersCount from '@/components/Base/BaseViewersCount.vue'
-import ProductTimer from '@/components/Base/BaseTimer.vue'
-import ProductHighlights from '@/components/Base/BaseList.vue'
-import BlockSeparator from '@/components/Base/BaseSeparator.vue'
-import SingleSelectGroup from '@/components/Base/BaseGroupSelect.vue'
-import QuantitySelector from '@/components/Base/BaseCounter.vue'
-import Button from '@/components/Base/BaseButton.vue'
-import SvgIcon from '@/components/Base/BaseSvgIcon.vue'
-import HtmlRenderer from '@/components/Base/BaseRawHtmlRenderer.vue'
-import ProductReview from '@/components/Base/BaseReview.vue'
-import ProductQuickAdd from '@/components/Base/BaseQuickWidget.vue'
-import CartPopup from '@/components/Cart/CartPopup.vue'
-import Link from '@/components/Base/BaseLink.vue'
+
+// async
+const ProductTimer = defineAsyncComponent(
+  () => import('@/components/Base/BaseTimer.vue')
+)
+const ProductHighlights = defineAsyncComponent(
+  () => import('@/components/Base/BaseList.vue')
+)
+const BlockSeparator = defineAsyncComponent(
+  () => import('@/components/Base/BaseSeparator.vue')
+)
+const SingleSelectGroup = defineAsyncComponent(
+  () => import('@/components/Base/BaseGroupSelect.vue')
+)
+const QuantitySelector = defineAsyncComponent(
+  () => import('@/components/Base/BaseCounter.vue')
+)
+const Button = defineAsyncComponent(
+  () => import('@/components/Base/BaseButton.vue')
+)
+const SvgIcon = defineAsyncComponent(
+  () => import('@/components/Base/BaseSvgIcon.vue')
+)
+const HtmlRenderer = defineAsyncComponent(
+  () => import('@/components/Base/BaseRawHtmlRenderer.vue')
+)
+const ProductReview = defineAsyncComponent(
+  () => import('@/components/Base/BaseReview.vue')
+)
+const ProductQuickAdd = defineAsyncComponent(
+  () => import('@/components/Base/BaseQuickWidget.vue')
+)
+const CartPopup = defineAsyncComponent(
+  () => import('@/components/Cart/CartPopup.vue')
+)
+const Link = defineAsyncComponent(
+  () => import('@/components/Base/BaseLink.vue')
+)
 
 const product = defineProps<Product>()
 const cartStore = useCartStore()
