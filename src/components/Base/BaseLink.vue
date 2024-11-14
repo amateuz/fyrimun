@@ -22,7 +22,7 @@ const getLinkHref = computed<string>(() => {
   <component
     :is="props.tag"
     :to="props.tag === 'router-link' ? getLinkHref : undefined"
-    :href="props.tag === 'a' ? getLinkHref : undefined"
+    :href="props.tag === 'a' ? getLinkHref : '#'"
     :target="props.target"
     class="base-link"
   >

@@ -53,6 +53,11 @@ const addLoadingLazy = (img: HTMLImageElement) => {
   img.setAttribute('loading', 'lazy')
 }
 
+const addAlt = (img: HTMLImageElement, value: string) => {
+  if (img.getAttribute('alt')) return
+  img.setAttribute('alt', value)
+}
+
 const transformImages = async (htmlContent: string): Promise<string> => {
   const parser = new DOMParser()
   const doc = parser.parseFromString(htmlContent, 'text/html')
@@ -72,6 +77,8 @@ const transformImages = async (htmlContent: string): Promise<string> => {
     if (props.addLoadingLazyToImages) {
       addLoadingLazy(img)
     }
+    addAlt(img, 'product photo')
+
     if (imageLoaders === null) continue
     await substituteImageSrcWithLocal(img, imageLoaders)
   }

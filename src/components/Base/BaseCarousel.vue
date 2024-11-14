@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Swiper as SwiperClass } from 'swiper/types'
 import type { LocalImagePath, LocalImageLoader } from '@/types'
-import { computed, onMounted, onBeforeMount, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import { until } from '@vueuse/core'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules'
@@ -199,10 +199,10 @@ defineExpose({
           />
         </swiper-slide>
       </swiper>
-      <button class="base-carousel__prev">
+      <button class="base-carousel__prev" aria-label="Scroll to previous slide">
         <BaseSvgIcon name="arrow" />
       </button>
-      <button class="base-carousel__next">
+      <button class="base-carousel__next" aria-label="Scroll to next slide">
         <BaseSvgIcon name="arrow" />
       </button>
     </div>
@@ -287,11 +287,6 @@ defineExpose({
 
   &__skeleton-loader {
     flex: 1 0 auto;
-
-    &--thumbs {
-      // padding-left: 0.75rem;
-      // margin-left: -0.75rem;
-    }
   }
 }
 </style>
@@ -375,6 +370,9 @@ defineExpose({
     width: fit-content;
     height: auto;
 
+    margin-right: auto;
+    margin-left: auto;
+
     aspect-ratio: 1 / 1;
     object-fit: cover;
 
@@ -385,8 +383,7 @@ defineExpose({
 .swiper-lazy-preloader {
   width: 100%;
   height: 100%;
-
-  // animation: color-change 1s $ease-in-out infinite;
+  display: none;
 }
 
 .swiper-lazy-preloader::after {

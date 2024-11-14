@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Product, Option, CartProduct } from '@/types'
 import type { SwiperClass } from 'swiper/swiper-react'
-import { computed, onUnmounted, ref, watch } from 'vue'
+import { computed, defineAsyncComponent, onUnmounted, ref, watch } from 'vue'
 import { useIntersectionObserver, until } from '@vueuse/core'
 import { getImageForColor } from '@/utils/getImageForColor'
 import { useCartStore } from '@/stores/cart'
@@ -159,9 +159,9 @@ onUnmounted(() => {
         />
         <ProductViewersCount />
         <div class="product-view__timer-container">
-          <h5 class="product-view__heading product-view__heading--h5">
+          <h4 class="product-view__heading product-view__heading--h4">
             {{ productTimerHeading }}
-          </h5>
+          </h4>
           <ProductTimer
             class="product-view__timer"
             :show-progress-bar="true"
@@ -297,7 +297,7 @@ onUnmounted(() => {
       color: $color-dark-20;
     }
 
-    &--h5 {
+    &--h4 {
       margin-bottom: 1rem;
 
       font-size: 1rem;
@@ -407,7 +407,7 @@ onUnmounted(() => {
   &__safe-checkout {
     margin-left: auto;
     margin-right: auto;
-  
+
     aspect-ratio: auto;
     object-fit: cover;
 

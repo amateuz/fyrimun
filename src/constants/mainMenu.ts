@@ -1,4 +1,4 @@
-import type { Link } from '@/types/link'
+import type { Link } from '@/types'
 
 const mainMenuItems: Link[] = [
   { href: '', text: 'Order tracking' },

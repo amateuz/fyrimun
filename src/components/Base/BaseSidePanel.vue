@@ -61,13 +61,7 @@ watch(
 </script>
 
 <template>
-  <aside
-    ref="panelSideRef"
-    :style="panelSideComputedStyles"
-    aria-modal="true"
-    class="panel-side"
-    role="dialog"
-  >
+  <aside ref="panelSideRef" :style="panelSideComputedStyles" class="panel-side">
     <slot name="panel-side-top" :closePanel="closePanel" />
     <slot />
     <Teleport to="#app" v-if="props.showOverlayOnOpen">

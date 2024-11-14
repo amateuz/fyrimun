@@ -1,5 +1,6 @@
 import type { CartProduct } from '@/types'
 import { defineStore } from 'pinia'
+import { equals, findCartProduct } from '@/utils/cartProduct'
 
 export const useCartStore = defineStore('cart', {
   state: () => ({
@@ -60,20 +61,3 @@ export const useCartStore = defineStore('cart', {
 
   persist: true
 })
-
-function equals(cartProduct1: CartProduct, cartProduct2: CartProduct): boolean {
-  return (
-    cartProduct1.name === cartProduct2.name &&
-    cartProduct1.color.value === cartProduct2.color.value &&
-    cartProduct1.size.value === cartProduct2.size.value
-  )
-}
-
-function findCartProduct(
-  cartProducts: CartProduct[],
-  cartProductToFind: CartProduct
-): CartProduct | undefined {
-  return cartProducts.find((cartProduct) =>
-    equals(cartProduct, cartProductToFind)
-  )
-}

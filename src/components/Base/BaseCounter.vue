@@ -35,6 +35,7 @@ const increment = () => {
 <template>
   <div class="base-counter">
     <button
+      aria-label="Decrease quantity"
       class="base-counter__decrement"
       @click="decrement"
       :disabled="!isMinLimitOrLower"
@@ -45,6 +46,7 @@ const increment = () => {
       {{ quantity }}
     </div>
     <button
+      aria-label="Increase quantity"
       class="base-counter__increment"
       @click="increment"
       :disabled="!isMaxLimitOrHigher"
