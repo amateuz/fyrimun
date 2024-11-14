@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import type { Swiper as SwiperClass } from 'swiper/types'
 import type { LocalImagePath, LocalImageLoader } from '@/types'
-import { ref, onMounted, onBeforeMount } from 'vue'
+import { computed, onMounted, onBeforeMount, ref } from 'vue'
 import { until } from '@vueuse/core'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules'
-import BaseSvgIcon from '@/components/Base/BaseSvgIcon.vue'
 import { getLocalImageLoaders } from '@/utils/getLocalImageLoaders'
+import { useWindowSize } from '@vueuse/core'
+import BaseSvgIcon from '@/components/Base/BaseSvgIcon.vue'
+import SkeletonLoader from '@/components/Base/BaseSkeletonLoader.vue'
 import 'swiper/css'
 import 'swiper/css/free-mode'
 import 'swiper/css/navigation'
@@ -16,7 +18,13 @@ const props = defineProps<{
   imagePaths: string[]
 }>()
 
-const MAX_SLIDES_PER_VIEW = 8
+const { width: windowWidth } = useWindowSize()
+const baseSlideWidth = 84
+const marginOffset = 32
+
+const maxSlidesPerScreen = computed(() => {
+  return Math.floor((windowWidth.value - marginOffset) / baseSlideWidth)
+})
 const contentSwiper = ref<SwiperClass | null>(null)
 const thumbsSwiper = ref<SwiperClass | null>(null)
 const selectedIndex = ref<number>(0)
@@ -54,62 +62,80 @@ const onIndexChange = (swiper: SwiperClass) => {
   updateThumbsIndex(swiper)
 }
 
-const preloadInitialImages = async () => {
-  const preloadImages: string[] = []
-  let mapIndex = 0
-  for (const imageLoader of imageLoadersMap.values()) {
-    if (mapIndex >= MAX_SLIDES_PER_VIEW) break
-    preloadImages.push((await imageLoader.importFn()).default)
-    mapIndex++
-  }
-  return preloadImages
+const isSlidesLoading = ref<Array<boolean>>(
+  Array(allImagesPaths.length).fill(true)
+)
+
+const isVisibleSlidesLoading = computed(() => {
+  return isSlidesLoading.value.some(
+    (isSlideLoading) =>
+      isSlideLoading &&
+      isSlidesLoading.value.indexOf(isSlideLoading) <= maxSlidesPerScreen.value
+  )
+})
+
+const addPreloadLinks = () => {
+  allImagesPaths.slice(0, maxSlidesPerScreen.value).forEach((src) => {
+    if (!document.head.querySelector(`link[rel="preload"][href="${src}"]`)) {
+      const link = document.createElement('link')
+      link.rel = 'preload'
+      link.as = 'image'
+      link.href = src
+      document.head.appendChild(link)
+    }
+  })
 }
 
-// await preloadInitialImages()
+const preloadInitialImages = async () => {
+  const loadedImages: string[] = []
+  let index = 0
+
+  for (const imageLoader of imageLoadersMap.values()) {
+    if (index >= maxSlidesPerScreen.value) break
+
+    const imgSrc = (await imageLoader.importFn()).default
+
+    await new Promise((resolve) => {
+      const img = new Image()
+      img.src = imgSrc
+      img.onload = () => {
+        isSlidesLoading.value[index] = false
+        resolve(true)
+      }
+      img.onerror = resolve // Handle errors gracefully
+    })
+
+    loadedImages.push(imgSrc)
+    index++
+  }
+
+  allImages.value = loadedImages
+}
 
 const loadRemainingImages = async () => {
   const remainingImages: string[] = []
-  let mapIndex = 0
-  for (const imageLoader of imageLoadersMap.values()) {
-    if (mapIndex >= MAX_SLIDES_PER_VIEW) {
-      remainingImages.push((await imageLoader.importFn()).default)
-    }
-    mapIndex++
+  let index = maxSlidesPerScreen.value
+
+  for (const imageLoader of Array.from(imageLoadersMap.values()).slice(index)) {
+    const imgSrc = (await imageLoader.importFn()).default
+
+    await new Promise((resolve) => {
+      const img = new Image()
+      img.src = imgSrc
+      img.onload = () => {
+        isSlidesLoading.value[index] = false
+        resolve(true)
+      }
+      img.onerror = resolve // Handle errors gracefully
+    })
+
+    remainingImages.push(imgSrc)
+    index++
   }
-  return remainingImages
+
+  allImages.value = [...allImages.value, ...remainingImages]
 }
 
-onBeforeMount(preloadInitialImages)
-onMounted(async () => {
-  const preloadedImages = await preloadInitialImages()
-  allImages.value = [...preloadedImages]
-  const remainingImages = await loadRemainingImages()
-  allImages.value = [...preloadedImages, ...remainingImages]
-  // await fixSlideToClickedSlide()
-})
-
-/* watch(allImages, () => {
-  contentSwiper.value?.update()
-  thumbsSwiper.value?.update()
-}) */
-
-defineExpose({
-  swiper: contentSwiper
-})
-// https://github.com/nolimits4web/swiper/issues/6358
-/* const fixSlideToClickedSlide = async () => {
-  await Promise.all([
-    until(contentSwiper).not.toBeNull(),
-    until(thumbsSwiper).not.toBeNull()
-  ])
-
-  contentSwiper.value!.thumbs.swiper.params.slideToClickedSlide = true
-  contentSwiper.value!.thumbs.swiper.update()
-} */
-
-/* onMounted(async () => {
-await fixSlideToClickedSlide()
-}) */
 // custom func, swiper glitches sometimes
 const slideToThis = (e: Event) => {
   const imgHref = (e.target as HTMLElement).getAttribute('src')
@@ -120,11 +146,26 @@ const slideToThis = (e: Event) => {
   contentSwiper.value?.slideTo(slideToIndex)
 }
 
-const isLoading = ref(Array(allImagesPaths.length).fill(true))
+onBeforeMount(async () => {
+  addPreloadLinks()
+  await preloadInitialImages()
+  loadRemainingImages()
+})
+
+defineExpose({
+  swiper: contentSwiper
+})
 </script>
 <template>
   <div class="base-carousel-block">
-    <div class="base-carousel-block__content">
+    <div v-if="isVisibleSlidesLoading">
+      <SkeletonLoader
+        class="base-carousel-block__skeleton-loader"
+        width="100%"
+        aspect-ratio="1 / 1"
+      />
+    </div>
+    <div v-else class="base-carousel-block__content">
       <swiper
         :modules="[Navigation, Thumbs]"
         :navigation="{
@@ -150,17 +191,11 @@ const isLoading = ref(Array(allImagesPaths.length).fill(true))
           ]"
         >
           <img
-            v-if="isLoading[index]"
-            class="swiper-lazy-preloader"
-            :src="'img/placeholder.png'"
-            alt="carousel slide placeholder"
-          />
-          <img
             :src="image"
             :alt="'Slide ' + (index + 1)"
             :loading="index === 0 ? 'eager' : 'lazy'"
             class="base-carousel-slide__img swiper-lazy"
-            @load="isLoading[index] = false"
+            @load="isSlidesLoading[index] = false"
           />
         </swiper-slide>
       </swiper>
@@ -171,7 +206,20 @@ const isLoading = ref(Array(allImagesPaths.length).fill(true))
         <BaseSvgIcon name="arrow" />
       </button>
     </div>
-    <div class="base-carousel-block__thumbs">
+
+    <div
+      v-if="isVisibleSlidesLoading"
+      class="base-carousel-block__skeleton-loader-container"
+    >
+      <SkeletonLoader
+        v-for="index in maxSlidesPerScreen"
+        :key="`skeleton-${index}`"
+        class="base-carousel-block__skeleton-loader base-carousel-block__skeleton-loader--thumbs"
+        width="84px"
+        aspect-ratio="1 / 1.142857142857143"
+      />
+    </div>
+    <div v-else class="base-carousel-block__thumbs">
       <swiper
         :centeredSlides="true"
         :centeredSlidesBounds="true"
@@ -192,18 +240,12 @@ const isLoading = ref(Array(allImagesPaths.length).fill(true))
           ]"
         >
           <img
-            v-if="isLoading[index]"
-            class="swiper-lazy-preloader"
-            :src="'img/placeholder.png'"
-            alt="carousel slide placeholder"
-          />
-          <img
             :alt="'Thumbnail ' + (index + 1)"
             :src="image"
             class="base-carousel-slide__img swiper-lazy"
             :loading="index === 0 ? 'eager' : 'lazy'"
             @click="slideToThis($event)"
-            @load="isLoading[index] = false"
+            @load="isSlidesLoading[index] = false"
           />
         </swiper-slide>
       </swiper>
@@ -231,6 +273,25 @@ const isLoading = ref(Array(allImagesPaths.length).fill(true))
     align-items: stretch;
 
     position: relative;
+  }
+
+  &__skeleton-loader-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.75rem;
+
+    margin-top: 0.75rem;
+    overflow: hidden;
+  }
+
+  &__skeleton-loader {
+    flex: 1 0 auto;
+
+    &--thumbs {
+      // padding-left: 0.75rem;
+      // margin-left: -0.75rem;
+    }
   }
 }
 </style>
