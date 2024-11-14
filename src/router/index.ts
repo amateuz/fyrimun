@@ -12,7 +12,8 @@ products.forEach((product, index) => {
     path: `/${product.url}`,
     name: 'product',
     component: ProductView,
-    props: product
+    props: product,
+    meta: { title: product.name }
   })
 })
 
@@ -20,12 +21,14 @@ routes.push(
   {
     path: '/cart',
     name: 'cart',
-    component: CartView
+    component: CartView,
+    meta: { title: 'Cart Page' }
   },
   {
     path: '/checkout',
     name: 'checkout',
-    component: CheckoutView
+    component: CheckoutView,
+    meta: { title: 'Checkout Page' }
   }
 )
 
@@ -39,6 +42,10 @@ const router = createRouter({
       return { top: 0 }
     }
   }
+})
+
+router.beforeEach((to) => {
+  document.title = (to.meta.title as string) ?? 'Fyrimun'
 })
 
 export default router
